@@ -13,7 +13,8 @@ const btcValue = require('btc-value');
 btcValue()
     .then((value) => {
         console.log('$' + value)
-        // => display the current value of Bitcoin in USD
+        // => displays the current value of Bitcoin in USD
+        // => e.g. $16258.2
     });
 ```
 
