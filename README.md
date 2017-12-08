@@ -32,5 +32,8 @@ The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarket
 ### btcValue(double)
 Returns the current Bitcoin value as an ```double``` if the ```boolean``` value is ```true```.
 
+## Related
+- [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
+
 ## Licence
 MIT © [Knut Kirkhorn](LICENSE)
