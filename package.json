@@ -1,0 +1,17 @@
+{
+  "name": "btc-value",
+  "version": "1.0.0",
+  "description": "Get the current Bitcoin value",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bitcoin",
+    "btc",
+    "value",
+    "cryptocurrency"
+  ],
+  "author": "Knut Kirkhorn",
+  "license": "MIT"
+}
