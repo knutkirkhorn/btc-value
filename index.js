@@ -26,11 +26,15 @@ function sendHttpRequest(url) {
     });
 }
 
-function getCurrentValue() {
+function getCurrentValue(double) {
     return new Promise( (resolve, reject) => {
         sendHttpRequest(apiURL)
         .then((response) => {
-            const usdValue = response.price_usd;
+            let usdValue = response.price_usd;
+            if (double === true) {
+                usdValue = parseInt(usdValue);
+            }
+            
             if (!usdValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
             }
@@ -39,6 +43,6 @@ function getCurrentValue() {
     });
 }
 
-module.exports = () => {
-    return getCurrentValue();
+module.exports = (double) => {
+    return getCurrentValue(double);
 }

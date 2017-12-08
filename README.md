@@ -14,7 +14,14 @@ btcValue()
     .then((value) => {
         console.log('$' + value)
         // => displays the current value of Bitcoin in USD
-        // => e.g. $16258.2
+        // => e.g. $16258
+    });
+
+// use true as a parameter to get the value as a double
+btcValue(true)
+    .then((value) => {
+        console.log('$' + value)
+        // => double value: $16258.2
     });
 ```
 
