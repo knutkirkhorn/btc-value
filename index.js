@@ -81,3 +81,5 @@ module.exports = (double) => {
 module.exports.getConvertedValue = (currencyCode, double) => {
     return getConvertedValue(currencyCode, double);
 };
+
+module.exports.currencies = currencies;
