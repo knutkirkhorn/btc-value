@@ -42,7 +42,7 @@ The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarket
 Returns the current Bitcoin value as an ```double``` if the ```boolean``` value is ```true```.
 
 ### btcValue.getConvertedValue(currencyCode)
-Returns the current Bitcoin value in a different currency than USD. Returns an ```integer```.
+Returns the current Bitcoin value in a different currency than USD. Returns an ```integer```. All valid currency codes are stored in the [currencies.json](currencies.json) file.
 
 ### btcValue.getConvertedValue(currencyCode, double)
 Returns the current Bitcoin value in a different currency as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise. 
