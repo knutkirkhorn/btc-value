@@ -1,5 +1,6 @@
 'use strict;'
 const https = require('https');
+const currencies = require('./currencies.json');
 
 const apiURL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/';
 
@@ -26,23 +27,57 @@ function sendHttpRequest(url) {
     });
 }
 
-function getCurrentValue(double) {
+function getValue(double) {
     return new Promise( (resolve, reject) => {
         sendHttpRequest(apiURL)
-        .then((response) => {
-            let usdValue = response.price_usd;
-            if (double === true) {
-                usdValue = parseInt(usdValue);
+            .then((response) => {
+                let usdValue = response.price_usd;
+                if (double !== true) {
+                    usdValue = parseInt(usdValue);
+                }
+                
+                if (!usdValue) {
+                    reject(new Error('Failed to retrieve Bitcoin value'));
+                }
+                resolve(usdValue);
+            });
+    });
+}
+
+function getConvertedValue(currencyCode, double) {
+    return new Promise( (resolve, reject) => {
+        //Check if the current currency code mathches any valid ones
+        let found = false;
+        for (let i = 0; i < currencies.length; i++) {
+            if (currencyCode.toUpperCase() === currencies[i].code) {
+                found = true;
+                break;
             }
-            
-            if (!usdValue) {
-                reject(new Error('Failed to retrieve Bitcoin value'));
-            }
-            resolve(usdValue);
-        });
+        }
+
+        if (!found) {
+            reject(new Error('Please choose a valid currency code'));
+        }
+
+        sendHttpRequest(apiURL + '?convert=' + currencyCode)
+            .then((response) => {
+                let currencyValue = response['price_' + currencyCode.toLowerCase()];
+                if (double !== true) {
+                    currencyValue = parseInt(currencyValue);
+                }
+                
+                if (!currencyValue) {
+                    reject(new Error('Failed to retrieve Bitcoin value'));
+                }
+                resolve(currencyValue);
+            });
     });
 }
 
 module.exports = (double) => {
-    return getCurrentValue(double);
+    return getValue(double);
 }
+
+module.exports.getConvertedValue = (currencyCode, double) => {
+    return getConvertedValue(currencyCode, double);
+};
