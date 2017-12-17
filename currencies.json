@@ -84,6 +84,10 @@
         "symbol": "$"
     },
     {
+        "code": "USD",
+        "symbol": "$"
+    },
+    {
         "code": "PHP",
         "symbol": "₱"
     },
