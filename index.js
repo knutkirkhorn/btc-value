@@ -27,24 +27,44 @@ function sendHttpRequest(url) {
     });
 }
 
-function getValue(isDouble) {
+// input1 and input2 can both be boolean (isDouble) and number (quantity), but not the same type
+function getValue(input1, input2) {
     return new Promise( (resolve, reject) => {
-        sendHttpRequest(apiURL)
-            .then((response) => {
-                let usdValue = response.price_usd;
-                if (isDouble !== true) {
+        sendHttpRequest(apiURL).then((response) => {
+            let usdValue = response.price_usd;
+
+            if (typeof input1 === 'number' && (typeof input2 === 'boolean' || 'undefined')) {
+                if (input2 !== true) {
+                    usdValue = parseInt(usdValue);
+                }
+
+                if (typeof input1 === 'number') {
+                    usdValue *= input1;
+                }
+            } else if (typeof input1 === 'boolean' && (typeof input2 === 'number' || 'undefined')) {
+                if (input1 !== true) {
                     usdValue = parseInt(usdValue);
                 }
                 
-                if (!usdValue) {
-                    reject(new Error('Failed to retrieve Bitcoin value'));
+                if (typeof input2 === 'number') {
+                    usdValue *= input2;
                 }
-                resolve(usdValue);
-            });
+            } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
+
+            } else {
+                reject(new Error('No available constructor for given input'));
+            }
+            
+            if (!usdValue) {
+                reject(new Error('Failed to retrieve Bitcoin value'));
+            }
+            resolve(usdValue);
+        });
     });
 }
 
-function getConvertedValue(currencyCode, isDouble) {
+// input1 and input2 can both be boolean (isDouble) and number (quantity), but not the same type
+function getConvertedValue(currencyCode, input1, input2) {
     return new Promise( (resolve, reject) => {
         //Check if the current currency code mathches any valid ones
         let found = false;
@@ -59,27 +79,45 @@ function getConvertedValue(currencyCode, isDouble) {
             reject(new Error('Please choose a valid currency code'));
         }
 
-        sendHttpRequest(apiURL + '?convert=' + currencyCode)
-            .then((response) => {
-                let currencyValue = response['price_' + currencyCode.toLowerCase()];
-                if (isDouble !== true) {
+        sendHttpRequest(apiURL + '?convert=' + currencyCode).then((response) => {
+            let currencyValue = response['price_' + currencyCode.toLowerCase()];
+
+            if (typeof input1 === 'number' && (typeof input2 === 'boolean' || 'undefined')) {
+                if (input2 !== true) {
+                    currencyValue = parseInt(currencyValue);
+                }
+
+                if (typeof input1 === 'number') {
+                    currencyValue *= input1;
+                }
+            } else if (typeof input1 === 'boolean' && (typeof input2 === 'number' || 'undefined')) {
+                if (input1 !== true) {
                     currencyValue = parseInt(currencyValue);
                 }
                 
-                if (!currencyValue) {
-                    reject(new Error('Failed to retrieve Bitcoin value'));
+                if (typeof input2 === 'number') {
+                    currencyValue *= input2;
                 }
-                resolve(currencyValue);
-            });
+            } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
+
+            } else {
+                reject(new Error('No available constructor for given input'));
+            }
+            
+            if (!currencyValue) {
+                reject(new Error('Failed to retrieve Bitcoin value'));
+            }
+            resolve(currencyValue);
+        });
     });
 }
 
-module.exports = (isDouble) => {
-    return getValue(isDouble);
+module.exports = (input1, input2) => {
+    return getValue(input1, input2);
 }
 
-module.exports.getConvertedValue = (currencyCode, isDouble) => {
-    return getConvertedValue(currencyCode, isDouble);
+module.exports.getConvertedValue = (currencyCode, input1, input2) => {
+    return getConvertedValue(currencyCode, input1, input2);
 };
 
 module.exports.currencies = currencies;

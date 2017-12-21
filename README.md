@@ -36,13 +36,24 @@ Returns the current Bitcoin value in USD ($) as an ```integer```.
 The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/).
 
 ### btcValue(isDouble)
-Returns the current Bitcoin value as an ```double``` if the ```boolean``` value is ```true```, otherwise the value is returned as ```integer```.
+Returns the current Bitcoin value as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise.
+
+### btcValue(quantity)
+
+### btcValue(quantity, isDouble)
 
 ### btcValue.getConvertedValue(currencyCode)
 Returns the current Bitcoin value in a different currency than USD. Returns an ```integer```. All valid currency codes are stored in the [currencies.json](currencies.json) file.
 
-### btcValue.getConvertedValue(currencyCode, double)
-Returns the current Bitcoin value in a different currency as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise. 
+### btcValue.getConvertedValue(currencyCode, isDouble)
+Returns the current Bitcoin value in a different currency as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise.
+
+### btcValue.getConvertedValue(currencyCode, quantity)
+
+### btcValue.getConvertedValue(currencyCode, quantity, isDouble)
+
+### btcValue.getConvertedValue(currencyCode, isDouble, quantity)
+Same as the version over just switched positions of ```quantity``` and ```idDouble```.
 
 ## Related
 - [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
