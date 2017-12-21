@@ -27,12 +27,12 @@ function sendHttpRequest(url) {
     });
 }
 
-function getValue(double) {
+function getValue(isDouble) {
     return new Promise( (resolve, reject) => {
         sendHttpRequest(apiURL)
             .then((response) => {
                 let usdValue = response.price_usd;
-                if (double !== true) {
+                if (isDouble !== true) {
                     usdValue = parseInt(usdValue);
                 }
                 
@@ -44,7 +44,7 @@ function getValue(double) {
     });
 }
 
-function getConvertedValue(currencyCode, double) {
+function getConvertedValue(currencyCode, isDouble) {
     return new Promise( (resolve, reject) => {
         //Check if the current currency code mathches any valid ones
         let found = false;
@@ -62,7 +62,7 @@ function getConvertedValue(currencyCode, double) {
         sendHttpRequest(apiURL + '?convert=' + currencyCode)
             .then((response) => {
                 let currencyValue = response['price_' + currencyCode.toLowerCase()];
-                if (double !== true) {
+                if (isDouble !== true) {
                     currencyValue = parseInt(currencyValue);
                 }
                 
@@ -74,12 +74,12 @@ function getConvertedValue(currencyCode, double) {
     });
 }
 
-module.exports = (double) => {
-    return getValue(double);
+module.exports = (isDouble) => {
+    return getValue(isDouble);
 }
 
-module.exports.getConvertedValue = (currencyCode, double) => {
-    return getConvertedValue(currencyCode, double);
+module.exports.getConvertedValue = (currencyCode, isDouble) => {
+    return getConvertedValue(currencyCode, isDouble);
 };
 
 module.exports.currencies = currencies;
