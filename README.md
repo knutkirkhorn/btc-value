@@ -39,7 +39,7 @@ The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarket
 Returns the current Bitcoin value as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise.
 
 ### btcValue(quantity)
-Returns the current Bitcoin value of a specified number ```quantity```.
+Returns the current Bitcoin value of a specified ```quantity```.
 
 ### btcValue(quantity, isDouble)
 ```quantity``` and ```isDouble``` works like the functions described over.
@@ -54,7 +54,7 @@ Returns the current Bitcoin value in a different currency than USD. Returns an `
 Returns the current Bitcoin value in a different currency as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise.
 
 ### btcValue.getConvertedValue(currencyCode, quantity)
-Returns the current Bitcoin value in a different currency of a specified number ```quantity```.
+Returns the current Bitcoin value in a different currency of a specified ```quantity```.
 
 ### btcValue.getConvertedValue(currencyCode, quantity, isDouble)
 ```quantity``` and ```isDouble``` works like the functions described over.
