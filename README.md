@@ -28,6 +28,12 @@ btcValue.getConvertedValue('NOK').then((value) => {
     // => displays the current value in NOK (Norwegian krone) kr 158053
     // => e.g. kr 158053
 });
+
+// get the value of 2.2 BTC
+btcValue(2.2).then((value) => {
+    console.log('$' + value);
+    // => $30685.60
+});
 ```
 
 ## API

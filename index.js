@@ -55,6 +55,11 @@ function getValue(input1, input2) {
                 reject(new Error('No available constructor for given input'));
             }
             
+            // Check if the number is not a int => convert to 2 decimals
+            if (usdValue % 1 !== 0) {
+                usdValue = parseFloat(usdValue).toFixed(2);
+            }
+
             if (!usdValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
             }
@@ -102,6 +107,11 @@ function getConvertedValue(currencyCode, input1, input2) {
 
             } else {
                 reject(new Error('No available constructor for given input'));
+            }
+
+            // Check if the number is not a int => convert to 2 decimals
+            if (currencyValue % 1 !== 0) {
+                currencyValue = parseFloat(currencyValue).toFixed(2);
             }
             
             if (!currencyValue) {
