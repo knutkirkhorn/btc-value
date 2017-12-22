@@ -16,7 +16,7 @@ btcValue().then((value) => {
     // => e.g. $16258
 });
 
-// use true as a parameter to get the value as a double
+// Print the current value in double if true is used as a parameter
 btcValue(true).then((value) => {
     console.log('$' + value)
     // => e.g. $14081.60
@@ -29,7 +29,6 @@ btcValue.getConvertedValue('NOK').then((value) => {
 });
 
 // Print the current value of 2.2 BTC in USD
-// get the value of 2.2 BTC
 btcValue(2.2).then((value) => {
     console.log('$' + value);
     // => $30685.60
