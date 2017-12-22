@@ -10,25 +10,25 @@ $ npm install btc-value
 ```js
 const btcValue = require('btc-value');
 
+// Print the current value of Bitcoin in USD
 btcValue().then((value) => {
     console.log('$' + value)
-    // => displays the current value of Bitcoin in USD
     // => e.g. $16258
 });
 
 // use true as a parameter to get the value as a double
 btcValue(true).then((value) => {
     console.log('$' + value)
-    // => double value: $14081.60
+    // => e.g. $14081.60
 });
 
-// get value as NOK (Norwegian krone)
+// Print the current value of Bitcoin in NOK (Norwegian krone)
 btcValue.getConvertedValue('NOK').then((value) => {
     console.log('kr ' + value);
-    // => displays the current value in NOK (Norwegian krone) kr 158053
     // => e.g. kr 158053
 });
 
+// Print the current value of 2.2 BTC in USD
 // get the value of 2.2 BTC
 btcValue(2.2).then((value) => {
     console.log('$' + value);
