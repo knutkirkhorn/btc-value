@@ -19,7 +19,7 @@ btcValue().then((value) => {
 // use true as a parameter to get the value as a double
 btcValue(true).then((value) => {
     console.log('$' + value)
-    // => double value: $16258.2
+    // => double value: $14081.60
 });
 
 // get value as NOK (Norwegian krone)
