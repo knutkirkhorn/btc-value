@@ -50,7 +50,7 @@ Returns the current Bitcoin value of a specified ```quantity```.
 ```quantity``` and ```isDouble``` works like the functions described over.
 
 ### btcValue(isDouble, quantity)
-Same as the version over just switched positions of ```quantity``` and ```idDouble```. The module will understand which version is being used.
+Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
 
 ### btcValue.getConvertedValue(currencyCode)
 Returns the current Bitcoin value in a different currency than USD. Returns an ```integer```. All valid currency codes are stored in the [currencies.json](currencies.json) file.
@@ -65,7 +65,7 @@ Returns the current Bitcoin value in a different currency of a specified ```quan
 ```quantity``` and ```isDouble``` works like the functions described over.
 
 ### btcValue.getConvertedValue(currencyCode, isDouble, quantity)
-Same as the version over just switched positions of ```quantity``` and ```idDouble```. The module will understand which version is being used.
+Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
 
 ## Related
 - [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
