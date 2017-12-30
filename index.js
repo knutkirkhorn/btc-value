@@ -122,6 +122,14 @@ function getConvertedValue(currencyCode, input1, input2) {
     });
 }
 
+function getPercentageChangeLastTime(type) {
+    return new Promise( (resolve, reject) => {
+        sendHttpRequest(apiURL).then((response) => {
+            resolve(response['percent_change_' + type]);
+        });
+    });
+}
+
 module.exports = (input1, input2) => {
     return getValue(input1, input2);
 }
@@ -129,5 +137,17 @@ module.exports = (input1, input2) => {
 module.exports.getConvertedValue = (currencyCode, input1, input2) => {
     return getConvertedValue(currencyCode, input1, input2);
 };
+
+module.exports.getPercentageChangeLastHour = () => {
+    return getPercentageChangeLastTime('1h');
+}
+
+module.exports.getPercentageChangeLastDay = () => {
+    return getPercentageChangeLastTime('24h');
+}
+
+module.exports.getPercentageChangeLastWeek = () => {
+    return getPercentageChangeLastTime('7d');
+}
 
 module.exports.currencies = currencies;

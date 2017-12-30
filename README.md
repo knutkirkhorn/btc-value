@@ -33,6 +33,11 @@ btcValue(2.2).then((value) => {
     console.log('$' + value);
     // => $30685.60
 });
+
+// Print the percentage change in BTC value the last day
+btcValue.getPercentageChangeLastDay().then((percentage) => {
+    console.log(percentage);
+});
 ```
 
 ## API
@@ -66,6 +71,15 @@ Returns the current Bitcoin value in a different currency of a specified ```quan
 
 ### btcValue.getConvertedValue(currencyCode, isDouble, quantity)
 Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
+
+### btcValue.getPercentageChangeLastHour()
+Return the percentage change of BTC the last hour.
+
+### btcValue.getPercentageChangeLastDay()
+Return the percentage change of BTC the last day.
+
+### btcValue.getPercentageChangeLastWeek()
+Return the percentage change of BTC the last week.
 
 ## Related
 - [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
