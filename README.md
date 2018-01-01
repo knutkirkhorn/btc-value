@@ -84,5 +84,5 @@ Return the percentage change of BTC the last week.
 ## Related
 - [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
 
-## Licence
+## License
 MIT © [Knut Kirkhorn](LICENSE)
