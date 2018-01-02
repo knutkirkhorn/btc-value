@@ -1,5 +1,5 @@
 # btc-value
-Get the current Bitcoin value
+> Get the current Bitcoin value
 
 ## Installation
 ```
