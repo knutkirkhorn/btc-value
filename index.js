@@ -1,14 +1,15 @@
-'use strict;'
+'use strict';
 const https = require('https');
 const currencies = require('./currencies.json');
 
 const apiURL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/';
 
 function sendHttpRequest(url) {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         https.get(url, (response) => {
             if (response.statusCode < 200 || response.statusCode > 299) {
-                reject(new Error('Failed to load url: ' + res.statusCode));
+                reject(new Error('Failed to load url: ' + response.statusCode));
+                return;
             }
 
             response.setEncoding('UTF-8');
@@ -29,8 +30,8 @@ function sendHttpRequest(url) {
 
 // input1 and input2 can both be boolean (isDouble) and number (quantity), but not the same type
 function getValue(input1, input2) {
-    return new Promise( (resolve, reject) => {
-        sendHttpRequest(apiURL).then((response) => {
+    return new Promise((resolve, reject) => {
+        sendHttpRequest(apiURL).then(response => {
             let usdValue = response.price_usd;
 
             if (typeof input1 === 'number' && (typeof input2 === 'boolean' || 'undefined')) {
@@ -53,6 +54,7 @@ function getValue(input1, input2) {
 
             } else {
                 reject(new Error('No available constructor for given input'));
+                return;
             }
             
             // Check if the number is not a int => convert to 2 decimals
@@ -62,6 +64,7 @@ function getValue(input1, input2) {
 
             if (!usdValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
+                return;
             }
             resolve(usdValue);
         });
@@ -70,7 +73,7 @@ function getValue(input1, input2) {
 
 // input1 and input2 can both be boolean (isDouble) and number (quantity), but not the same type
 function getConvertedValue(currencyCode, input1, input2) {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         //Check if the current currency code mathches any valid ones
         let found = false;
         for (let i = 0; i < currencies.length; i++) {
@@ -82,9 +85,10 @@ function getConvertedValue(currencyCode, input1, input2) {
 
         if (!found) {
             reject(new Error('Please choose a valid currency code'));
+            return;
         }
 
-        sendHttpRequest(apiURL + '?convert=' + currencyCode).then((response) => {
+        sendHttpRequest(apiURL + '?convert=' + currencyCode).then(response => {
             let currencyValue = response['price_' + currencyCode.toLowerCase()];
 
             if (typeof input1 === 'number' && (typeof input2 === 'boolean' || 'undefined')) {
@@ -107,6 +111,7 @@ function getConvertedValue(currencyCode, input1, input2) {
 
             } else {
                 reject(new Error('No available constructor for given input'));
+                return;
             }
 
             // Check if the number is not a int => convert to 2 decimals
@@ -116,6 +121,7 @@ function getConvertedValue(currencyCode, input1, input2) {
             
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
+                return;
             }
             resolve(currencyValue);
         });
@@ -123,8 +129,8 @@ function getConvertedValue(currencyCode, input1, input2) {
 }
 
 function getPercentageChangeLastTime(type) {
-    return new Promise( (resolve, reject) => {
-        sendHttpRequest(apiURL).then((response) => {
+    return new Promise((resolve, reject) => {
+        sendHttpRequest(apiURL).then(response => {
             resolve(response['percent_change_' + type]);
         });
     });
