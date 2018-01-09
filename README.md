@@ -12,13 +12,13 @@ const btcValue = require('btc-value');
 
 // Print the current value of Bitcoin in USD
 btcValue().then(value => {
-    console.log('$' + value)
+    console.log('$' + value);
     // => e.g. $16258
 });
 
 // Print the current value in double if true is used as a parameter
 btcValue(true).then(value => {
-    console.log('$' + value)
+    console.log('$' + value);
     // => e.g. $14081.60
 });
 
@@ -31,12 +31,13 @@ btcValue.getConvertedValue('NOK').then(value => {
 // Print the current value of 2.2 BTC in USD
 btcValue(2.2).then(value => {
     console.log('$' + value);
-    // => $30685.60
+    // => e.g. $30685.60
 });
 
 // Print the percentage change in BTC value the last day
 btcValue.getPercentageChangeLastDay().then(percentage => {
-    console.log(percentage);
+    console.log(percentage + '%');
+    // => e.g. -7.17%
 });
 ```
 
