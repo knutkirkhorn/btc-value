@@ -67,7 +67,7 @@ function getValue(input1, input2) {
                 return;
             }
             resolve(usdValue);
-        });
+        }).catch((error) => reject(error));
     });
 }
 
@@ -124,7 +124,7 @@ function getConvertedValue(currencyCode, input1, input2) {
                 return;
             }
             resolve(currencyValue);
-        });
+        }).catch((error) => reject(error));
     });
 }
 
