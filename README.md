@@ -1,7 +1,7 @@
 <h1 align="center">
 	<br>
 	<br>
-	<img width="360" src="Untitled-3_4_yellow_uten_terminal.svg" alt="btc-value">
+	<img width="360" src="media/logo.svg" alt="btc-value">
 	<br>
 	<br>
 	<br>
