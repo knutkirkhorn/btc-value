@@ -1,4 +1,12 @@
-# btc-value
+<h1 align="center">
+	<br>
+	<br>
+	<img width="360" src="Untitled-3_4_yellow_uten_terminal.svg" alt="btc-value">
+	<br>
+	<br>
+	<br>
+</h1>
+
 > Get the current Bitcoin value
 
 ## Installation
