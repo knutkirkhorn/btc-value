@@ -1,6 +1,6 @@
 {
   "name": "btc-value",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Get the current Bitcoin value",
   "main": "index.js",
   "scripts": {
