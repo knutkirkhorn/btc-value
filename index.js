@@ -20,6 +20,7 @@ function sendHttpRequest(url) {
             });
 
             response.on('end', function() {
+                //TODO: check if able to parse and get [0]
                 resolve(JSON.parse(data)[0]);
             });
         }).on('error', (error) => {
