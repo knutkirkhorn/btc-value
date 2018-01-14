@@ -9,6 +9,8 @@
 
 > Get the current Bitcoin value
 
+[![Build Status](https://travis-ci.org/Knutakir/btc-value.svg?branch=add-test)](https://travis-ci.org/Knutakir/btc-value)
+
 ## Installation
 ```
 $ npm install btc-value
