@@ -53,35 +53,31 @@ btcValue.getPercentageChangeLastDay().then(percentage => {
 
 ## API
 ### btcValue()
-Returns the current Bitcoin value in USD ($) as an ```integer```.
+Returns the current Bitcoin value in USD ($) as an `integer`.
 The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/).
 
 ### btcValue(isDouble)
-Returns the current Bitcoin value as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise.
+#### isDouble
+Type: `boolean`
+Returns the current Bitcoin value as an `double` if `isDouble` is `true`. Returns an `integer` otherwise.
 
 ### btcValue(quantity)
-Returns the current Bitcoin value of a specified ```quantity```.
-
-### btcValue(quantity, isDouble)
-```quantity``` and ```isDouble``` works like the functions described over.
+Returns the current Bitcoin value of a specified `quantity`.
 
 ### btcValue(isDouble, quantity)
-Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
+`quantity` and `isDouble` works like the functions described over.
 
 ### btcValue.getConvertedValue(currencyCode)
-Returns the current Bitcoin value in a different currency than USD. Returns an ```integer```. All valid currency codes are stored in the [currencies.json](currencies.json) file.
+Returns the current Bitcoin value in a different currency than `USD`. Returns an `integer`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
 
 ### btcValue.getConvertedValue(currencyCode, isDouble)
-Returns the current Bitcoin value in a different currency as an ```double``` if the ```boolean``` value is ```true```. Returns an ```integer``` otherwise.
+Returns the current Bitcoin value in a different currency as an `double` if `isDouble` is `true`. Returns an `integer` otherwise.
 
 ### btcValue.getConvertedValue(currencyCode, quantity)
-Returns the current Bitcoin value in a different currency of a specified ```quantity```.
-
-### btcValue.getConvertedValue(currencyCode, quantity, isDouble)
-```quantity``` and ```isDouble``` works like the functions described over.
+Returns the current Bitcoin value in a different currency of a specified `quantity`.
 
 ### btcValue.getConvertedValue(currencyCode, isDouble, quantity)
-Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
+`quantity` and `isDouble` works like the functions described over.
 
 ### btcValue.getPercentageChangeLastHour()
 Return the percentage change of BTC the last hour.

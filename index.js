@@ -6,7 +6,7 @@ const apiURL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/';
 
 function sendHttpRequest(url) {
     return new Promise((resolve, reject) => {
-        https.get(url, (response) => {
+        https.get(url, response => {
             if (response.statusCode < 200 || response.statusCode > 299) {
                 reject(new Error('Failed to load url: ' + response.statusCode));
                 return;
@@ -20,62 +20,75 @@ function sendHttpRequest(url) {
             });
 
             response.on('end', function() {
-                //TODO: check if able to parse and get [0]
-                resolve(JSON.parse(data)[0]);
+                try {
+                    resolve(JSON.parse(data)[0]);
+                } catch (err) {
+                    // If not able to parse JSON or get the first parsed value
+                    reject(new Error('Failed to retrieve Bitcoin value'));
+                    return;
+                }
+                
             });
-        }).on('error', (error) => {
+        }).on('error', error => {
             reject(error);
         });
     });
 }
 
-// input1 and input2 can both be boolean (isDouble) and number (quantity), but not the same type
+function convertToTwoDecimals(number) {
+    // Check if the number is not a int => convert to 2 decimals
+    if (number % 1 !== 0) {
+        return parseFloat(number).toFixed(2);
+    }
+    return number;
+}
+
+// input1 can both be boolean (isDouble) and number (quantity), but not the same type
+// input2 can be boolean (isDouble) if input1 is number (quantity)
 function getValue(input1, input2) {
     return new Promise((resolve, reject) => {
         sendHttpRequest(apiURL).then(response => {
             let usdValue = response.price_usd;
 
-            if (typeof input1 === 'number' && (typeof input2 === 'boolean' || 'undefined')) {
-                if (input2 !== true) {
-                    usdValue = parseInt(usdValue);
-                }
-
-                if (typeof input1 === 'number') {
-                    usdValue *= input1;
-                }
+            if (typeof input1 === 'number' && typeof input2 === 'undefined') {
+                usdValue *= input1;
             } else if (typeof input1 === 'boolean' && (typeof input2 === 'number' || 'undefined')) {
                 if (input1 !== true) {
                     usdValue = parseInt(usdValue);
                 }
-                
+
                 if (typeof input2 === 'number') {
                     usdValue *= input2;
                 }
             } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
-
+                usdValue = parseInt(usdValue);
             } else {
                 reject(new Error('No available constructor for given input'));
                 return;
-            }
-            
-            // Check if the number is not a int => convert to 2 decimals
-            if (usdValue % 1 !== 0) {
-                usdValue = parseFloat(usdValue).toFixed(2);
             }
 
             if (!usdValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
                 return;
             }
+            usdValue = convertToTwoDecimals(usdValue);
+            console.log(usdValue);
             resolve(usdValue);
-        }).catch((error) => reject(error));
+        }).catch(error => reject(error));
     });
 }
 
-// input1 and input2 can both be boolean (isDouble) and number (quantity), but not the same type
+// input1 can both be boolean (isDouble) and number (quantity), but not the same type
+// input2 can be boolean (isDouble) if input1 is number (quantity)
 function getConvertedValue(currencyCode, input1, input2) {
     return new Promise((resolve, reject) => {
-        //Check if the current currency code mathches any valid ones
+        // Check that the type of `currencyCode` is 'string'
+        if (typeof currencyCode !== 'string') {
+            reject(new Error('Currency code needs to be a string'));
+            return;
+        }
+
+        // Check if the current currency code mathches any valid ones
         let found = false;
         for (let i = 0; i < currencies.length; i++) {
             if (currencyCode.toUpperCase() === currencies[i].code) {
@@ -92,40 +105,30 @@ function getConvertedValue(currencyCode, input1, input2) {
         sendHttpRequest(apiURL + '?convert=' + currencyCode).then(response => {
             let currencyValue = response['price_' + currencyCode.toLowerCase()];
 
-            if (typeof input1 === 'number' && (typeof input2 === 'boolean' || 'undefined')) {
-                if (input2 !== true) {
-                    currencyValue = parseInt(currencyValue);
-                }
-
-                if (typeof input1 === 'number') {
-                    currencyValue *= input1;
-                }
+            if (typeof input1 === 'number' && typeof input2 === 'undefined') {
+                currencyValue *= input1;
             } else if (typeof input1 === 'boolean' && (typeof input2 === 'number' || 'undefined')) {
                 if (input1 !== true) {
                     currencyValue = parseInt(currencyValue);
                 }
-                
+
                 if (typeof input2 === 'number') {
                     currencyValue *= input2;
                 }
             } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
-
+                currencyValue = parseInt(currencyValue);
             } else {
                 reject(new Error('No available constructor for given input'));
                 return;
-            }
-
-            // Check if the number is not a int => convert to 2 decimals
-            if (currencyValue % 1 !== 0) {
-                currencyValue = parseFloat(currencyValue).toFixed(2);
             }
             
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
                 return;
             }
+            currencyValue = convertToTwoDecimals(currencyValue);
             resolve(currencyValue);
-        }).catch((error) => reject(error));
+        }).catch(error => reject(error));
     });
 }
 
