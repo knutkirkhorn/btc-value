@@ -72,7 +72,6 @@ function getValue(input1, input2) {
                 return;
             }
             usdValue = convertToTwoDecimals(usdValue);
-            console.log(usdValue);
             resolve(usdValue);
         }).catch(error => reject(error));
     });
