@@ -62,9 +62,6 @@ Returns the current Bitcoin value as an ```double``` if the ```boolean``` value 
 ### btcValue(quantity)
 Returns the current Bitcoin value of a specified ```quantity```.
 
-### btcValue(quantity, isDouble)
-```quantity``` and ```isDouble``` works like the functions described over.
-
 ### btcValue(isDouble, quantity)
 Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
 
@@ -76,9 +73,6 @@ Returns the current Bitcoin value in a different currency as an ```double``` if 
 
 ### btcValue.getConvertedValue(currencyCode, quantity)
 Returns the current Bitcoin value in a different currency of a specified ```quantity```.
-
-### btcValue.getConvertedValue(currencyCode, quantity, isDouble)
-```quantity``` and ```isDouble``` works like the functions described over.
 
 ### btcValue.getConvertedValue(currencyCode, isDouble, quantity)
 Same as the version over just switched positions of ```quantity``` and ```isDouble```. The module will understand which version is being used.
