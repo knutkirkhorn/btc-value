@@ -63,7 +63,7 @@ function getValue(input1, input2) {
             } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
                 usdValue = parseInt(usdValue);
             } else {
-                reject(new Error('No available constructor for given input'));
+                reject(new Error('Not valid input'));
                 return;
             }
 
@@ -118,7 +118,7 @@ function getConvertedValue(currencyCode, input1, input2) {
             } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
                 currencyValue = parseInt(currencyValue);
             } else {
-                reject(new Error('No available constructor for given input'));
+                reject(new Error('Not valid input'));
                 return;
             }
             
