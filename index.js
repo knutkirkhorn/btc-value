@@ -22,12 +22,11 @@ function sendHttpRequest(url) {
             response.on('end', function() {
                 try {
                     resolve(JSON.parse(data)[0]);
-                } catch (err) {
+                } catch(err) {
                     // If not able to parse JSON or get the first parsed value
                     reject(new Error('Failed to retrieve Bitcoin value'));
                     return;
                 }
-                
             });
         }).on('error', error => {
             reject(error);
@@ -134,7 +133,13 @@ function getConvertedValue(currencyCode, input1, input2) {
 function getPercentageChangeLastTime(type) {
     return new Promise((resolve, reject) => {
         sendHttpRequest(apiURL).then(response => {
-            resolve(response['percent_change_' + type]);
+            try {
+                const percentageChange = parseFloat(response['percent_change_' + type]);
+                resolve(percentageChange);
+            } catch(err) {
+                reject(new Error('Failed to retrieve percentage change'));
+                return;
+            }
         });
     });
 }
