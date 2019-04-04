@@ -42,8 +42,8 @@ function convertToTwoDecimals(number) {
     return number;
 }
 
-// input1 can both be boolean (isDouble) and number (quantity), but not the same type
-// input2 can be boolean (isDouble) if input1 is number (quantity)
+// input1 can both be boolean (isDecimal) and number (quantity), but not the same type
+// input2 can be boolean (isDecimal) if input1 is number (quantity)
 function getValue(input1, input2) {
     return new Promise((resolve, reject) => {
         sendHttpRequest(apiURL).then(response => {
@@ -76,8 +76,8 @@ function getValue(input1, input2) {
     });
 }
 
-// input1 can both be boolean (isDouble) and number (quantity), but not the same type
-// input2 can be boolean (isDouble) if input1 is number (quantity)
+// input1 can both be boolean (isDecimal) and number (quantity), but not the same type
+// input2 can be boolean (isDecimal) if input1 is number (quantity)
 function getConvertedValue(currencyCode, input1, input2) {
     return new Promise((resolve, reject) => {
         // Check that the type of `currencyCode` is 'string'

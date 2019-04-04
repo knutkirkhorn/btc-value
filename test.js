@@ -2,7 +2,7 @@ import test from 'ava';
 import m from '.';
 
 test('value return something', t => {
-    return m().then(value => {
+    return m().then(() => {
         t.pass();
     }).catch(() => {
         t.fail();

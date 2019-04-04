@@ -26,7 +26,7 @@ btcValue().then(value => {
     // => e.g. $11048
 });
 
-// Print the current value in double if true is used as a parameter
+// Print the current value as a decimal number if true is used as a parameter
 btcValue(true).then(value => {
     console.log('$' + value);
     // => e.g. $11048.10
@@ -56,28 +56,28 @@ btcValue.getPercentageChangeLastDay().then(percentage => {
 Returns the current Bitcoin value in USD ($) as an `integer`.
 The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/).
 
-### btcValue(isDouble)
-#### isDouble
+### btcValue(isDecimal)
+#### isDecimal
 Type: `boolean`
-Returns the current Bitcoin value as an `double` if `isDouble` is `true`. Returns an `integer` otherwise.
+Returns the current Bitcoin value as a `decimal number` if `isDecimal` is `true`. Returns an `integer` otherwise.
 
 ### btcValue(quantity)
 Returns the current Bitcoin value of a specified `quantity`.
 
-### btcValue(isDouble, quantity)
-`quantity` and `isDouble` works like the functions described over.
+### btcValue(isDecimal, quantity)
+`quantity` and `isDecimal` works like the functions described over.
 
 ### btcValue.getConvertedValue(currencyCode)
 Returns the current Bitcoin value in a different currency than `USD`. Returns an `integer`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
 
-### btcValue.getConvertedValue(currencyCode, isDouble)
-Returns the current Bitcoin value in a different currency as an `double` if `isDouble` is `true`. Returns an `integer` otherwise.
+### btcValue.getConvertedValue(currencyCode, isDecimal)
+Returns the current Bitcoin value in a different currency as a `decimal number` if `isDecimal` is `true`. Returns an `integer` otherwise.
 
 ### btcValue.getConvertedValue(currencyCode, quantity)
 Returns the current Bitcoin value in a different currency of a specified `quantity`.
 
-### btcValue.getConvertedValue(currencyCode, isDouble, quantity)
-`quantity` and `isDouble` works like the functions described over.
+### btcValue.getConvertedValue(currencyCode, isDecimal, quantity)
+`quantity` and `isDecimal` works like the functions described over.
 
 ### btcValue.getPercentageChangeLastHour()
 Return the percentage change of BTC the last hour.
