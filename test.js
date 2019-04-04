@@ -1,8 +1,8 @@
 import test from 'ava';
-import m from '.';
+import btcValue from '.';
 
 test('value return something', t => {
-    return m().then(() => {
+    return btcValue().then(() => {
         t.pass();
     }).catch(() => {
         t.fail();
@@ -10,7 +10,7 @@ test('value return something', t => {
 });
 
 test('returned value is a number #1', t => {
-    return m().then(value => {
+    return btcValue().then(value => {
         t.is(typeof value, 'number');
     }).catch(() => {
         t.fail();
@@ -18,7 +18,7 @@ test('returned value is a number #1', t => {
 });
 
 test('returned value is a number #2', t => {
-    return m.getPercentageChangeLastDay().then(value => {
+    return btcValue.getPercentageChangeLastDay().then(value => {
         t.is(typeof value, 'number');
 
         if (isNaN(value)) {
@@ -30,7 +30,7 @@ test('returned value is a number #2', t => {
 });
 
 test('returned value is non-negative number', t => {
-    return m().then(value => {
+    return btcValue().then(value => {
         if (value >= 0) {
             t.pass();
         } else {
@@ -42,7 +42,7 @@ test('returned value is non-negative number', t => {
 });
 
 test('does throw error if parameters are wrong #1', t => {
-    return m('string').then(value => {
+    return btcValue('string').then(() => {
         t.fail();
     }).catch(() => {
         t.pass();
@@ -50,7 +50,7 @@ test('does throw error if parameters are wrong #1', t => {
 });
 
 test('does throw error if parameters are wrong #2', t => {
-    return m(['array', 'input']).then(value => {
+    return btcValue(['array', 'input']).then(() => {
         t.fail();
     }).catch(() => {
         t.pass();
@@ -58,7 +58,7 @@ test('does throw error if parameters are wrong #2', t => {
 });
 
 test('correct parameter test', t => {
-    return m.getConvertedValue('USD').then(value => {
+    return btcValue.getConvertedValue('USD').then(() => {
         t.pass();
     }).catch(() => {
         t.fail();
