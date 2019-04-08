@@ -107,7 +107,7 @@ function getValue(options) {
 
         sendHttpRequest(url).then(response => {
             // Set the `currencyValue` to the `USD` value by default
-            let currencyValue = (currencyCode === 'USD') ? response.price_usd : response['price_' + currencyCode.toLowerCase()];;
+            let currencyValue = (currencyCode === 'USD') ? response.price_usd : response['price_' + currencyCode.toLowerCase()];
 
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
@@ -139,18 +139,18 @@ function getPercentageChangeLastTime(type) {
 
 module.exports = options => {
     return getValue(options);
-}
+};
 
 module.exports.getPercentageChangeLastHour = () => {
     return getPercentageChangeLastTime('1h');
-}
+};
 
 module.exports.getPercentageChangeLastDay = () => {
     return getPercentageChangeLastTime('24h');
-}
+};
 
 module.exports.getPercentageChangeLastWeek = () => {
     return getPercentageChangeLastTime('7d');
-}
+};
 
 module.exports.currencies = currencies;
