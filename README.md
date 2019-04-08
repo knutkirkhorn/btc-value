@@ -26,7 +26,7 @@ btcValue().then(value => {
     // => e.g. $11048
 });
 
-// Print the current value as a decimal number if true is used as a parameter
+// Print the current value as a decimal number if `isDecimal` is `true`
 btcValue({isDecimal: true}).then(value => {
     console.log('$' + value);
     // => e.g. $11048.10
@@ -74,7 +74,7 @@ Returns the current Bitcoin value of a specified `quantity`.
 Type: `string`<br>
 Default: `USD`
 
-Returns the current Bitcoin value in a different currency than `USD`. Returns an `integer`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
+Returns the current Bitcoin value in a different currency than `USD`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
 
 ### btcValue.getPercentageChangeLastHour()
 Return the percentage change of BTC the last hour.
