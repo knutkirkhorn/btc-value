@@ -4,7 +4,8 @@
   "description": "Get the current Bitcoin value",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "author": "Knut Kirkhorn",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^1.4.1"
+    "ava": "^1.4.1",
+    "eslint": "^5.16.0"
   }
 }
