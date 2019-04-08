@@ -27,19 +27,19 @@ btcValue().then(value => {
 });
 
 // Print the current value as a decimal number if true is used as a parameter
-btcValue(true).then(value => {
+btcValue({isDecimal: true}).then(value => {
     console.log('$' + value);
     // => e.g. $11048.10
 });
 
 // Print the current value of Bitcoin in NOK (Norwegian krone)
-btcValue.getConvertedValue('NOK').then(value => {
+btcValue({currencyCode: 'NOK'}).then(value => {
     console.log('kr ' + value);
     // => e.g. kr 86664
 });
 
 // Print the current value of 2.2 BTC in USD
-btcValue(2.2).then(value => {
+btcValue({quantity: 2.2}).then(value => {
     console.log('$' + value);
     // => e.g. $24305.82
 });
@@ -52,32 +52,29 @@ btcValue.getPercentageChangeLastDay().then(percentage => {
 ```
 
 ## API
-### btcValue()
+The Bitcoin value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/).
+### btcValue([options])
 Returns the current Bitcoin value in USD ($) as an `integer`.
-The btc value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/).
 
-### btcValue(isDecimal)
-#### isDecimal
-Type: `boolean`
-Returns the current Bitcoin value as a `decimal number` if `isDecimal` is `true`. Returns an `integer` otherwise.
+#### options ***(optional)***
+Type: `object`
 
-### btcValue(quantity)
+##### isDecimal
+Type: `boolean`<br>
+Default: `false`
+
+Returns the current Bitcoin value as a `decimal number` if `isDecimal` is `true`.
+
+##### quantity
+Type: `number`
+
 Returns the current Bitcoin value of a specified `quantity`.
 
-### btcValue(isDecimal, quantity)
-`quantity` and `isDecimal` works like the functions described over.
+##### currencyCode
+Type: `string`<br>
+Default: `USD`
 
-### btcValue.getConvertedValue(currencyCode)
 Returns the current Bitcoin value in a different currency than `USD`. Returns an `integer`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
-
-### btcValue.getConvertedValue(currencyCode, isDecimal)
-Returns the current Bitcoin value in a different currency as a `decimal number` if `isDecimal` is `true`. Returns an `integer` otherwise.
-
-### btcValue.getConvertedValue(currencyCode, quantity)
-Returns the current Bitcoin value in a different currency of a specified `quantity`.
-
-### btcValue.getConvertedValue(currencyCode, isDecimal, quantity)
-`quantity` and `isDecimal` works like the functions described over.
 
 ### btcValue.getPercentageChangeLastHour()
 Return the percentage change of BTC the last hour.

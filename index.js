@@ -1,7 +1,6 @@
 'use strict';
 const https = require('https');
 const currencies = require('./currencies.json');
-
 const apiURL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/';
 
 function sendHttpRequest(url) {
@@ -30,6 +29,7 @@ function sendHttpRequest(url) {
             });
         }).on('error', error => {
             reject(error);
+            return;
         });
     });
 }
@@ -37,53 +37,54 @@ function sendHttpRequest(url) {
 function convertToTwoDecimals(number) {
     // Check if the number is not a int => convert to 2 decimals
     if (number % 1 !== 0) {
-        return parseFloat(number).toFixed(2);
+        return parseFloat(number.toFixed(2));
     }
+
     return number;
 }
 
-// input1 can both be boolean (isDecimal) and number (quantity), but not the same type
-// input2 can be boolean (isDecimal) if input1 is number (quantity)
-function getValue(input1, input2) {
-    return new Promise((resolve, reject) => {
-        sendHttpRequest(apiURL).then(response => {
-            let usdValue = response.price_usd;
+function parseOptions(currencyValue, options) {
+    const {isDecimal, quantity} = options;
 
-            if (typeof input1 === 'number' && typeof input2 === 'undefined') {
-                usdValue *= input1;
-            } else if (typeof input1 === 'boolean' && (typeof input2 === 'number' || 'undefined')) {
-                if (input1 !== true) {
-                    usdValue = parseInt(usdValue);
-                }
+    if (typeof isDecimal !== 'boolean') {
+        throw new TypeError('`isDecimal` should be of type `boolean`');
+    }
 
-                if (typeof input2 === 'number') {
-                    usdValue *= input2;
-                }
-            } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
-                usdValue = parseInt(usdValue);
-            } else {
-                reject(new Error('Not valid input'));
-                return;
-            }
+    if (quantity) {
+        if (typeof quantity !== 'number') {
+            throw new TypeError('`quantity` should be of type `number`');
+        }
 
-            if (!usdValue) {
-                reject(new Error('Failed to retrieve Bitcoin value'));
-                return;
-            }
-            usdValue = convertToTwoDecimals(usdValue);
-            resolve(usdValue);
-        }).catch(error => reject(error));
-    });
+        currencyValue *= quantity;
+    }
+
+    // If `isDecimal` is false => return an integer
+    if (!isDecimal) {
+        currencyValue = parseInt(currencyValue);
+    }
+
+    return convertToTwoDecimals(currencyValue);
 }
 
 // input1 can both be boolean (isDecimal) and number (quantity), but not the same type
 // input2 can be boolean (isDecimal) if input1 is number (quantity)
-function getConvertedValue(currencyCode, input1, input2) {
+// TODO: new text here
+
+function getValue(options) {
     return new Promise((resolve, reject) => {
-        // Check that the type of `currencyCode` is 'string'
+        let url = apiURL;
+
+        // Set default value of `currencyCode` and `isDecimal`
+        options = Object.assign({
+            currencyCode: 'USD',
+            isDecimal: false
+        }, options);
+
+        const {currencyCode} = options;
+        
+        // Check that the type of `currencyCode` is `string`
         if (typeof currencyCode !== 'string') {
-            reject(new Error('Currency code needs to be a string'));
-            return;
+            throw new TypeError('`currencyCode` should be of type `string`');
         }
 
         // Check if the current currency code mathches any valid ones
@@ -96,36 +97,27 @@ function getConvertedValue(currencyCode, input1, input2) {
         }
 
         if (!found) {
-            reject(new Error('Please choose a valid currency code'));
+            reject(new Error('Please choose a valid `currencyCode`'));
             return;
         }
 
-        sendHttpRequest(apiURL + '?convert=' + currencyCode).then(response => {
-            let currencyValue = response['price_' + currencyCode.toLowerCase()];
+        if (currencyCode !== 'USD') {
+            url += '?convert=' + currencyCode;
+        }
 
-            if (typeof input1 === 'number' && typeof input2 === 'undefined') {
-                currencyValue *= input1;
-            } else if (typeof input1 === 'boolean' && (typeof input2 === 'number' || 'undefined')) {
-                if (input1 !== true) {
-                    currencyValue = parseInt(currencyValue);
-                }
+        sendHttpRequest(url).then(response => {
+            // Set the `currencyValue` to the `USD` value by default
+            let currencyValue = (currencyCode === 'USD') ? response.price_usd : response['price_' + currencyCode.toLowerCase()];;
 
-                if (typeof input2 === 'number') {
-                    currencyValue *= input2;
-                }
-            } else if (typeof input1 === 'undefined' && typeof input2 === 'undefined') {
-                currencyValue = parseInt(currencyValue);
-            } else {
-                reject(new Error('Not valid input'));
-                return;
-            }
-            
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
                 return;
             }
-            currencyValue = convertToTwoDecimals(currencyValue);
+            
+            currencyValue = Number(currencyValue);
+            currencyValue = parseOptions(currencyValue, options);
             resolve(currencyValue);
+            return;
         }).catch(error => reject(error));
     });
 }
@@ -136,6 +128,7 @@ function getPercentageChangeLastTime(type) {
             try {
                 const percentageChange = parseFloat(response['percent_change_' + type]);
                 resolve(percentageChange);
+                return;
             } catch(err) {
                 reject(new Error('Failed to retrieve percentage change'));
                 return;
@@ -144,13 +137,9 @@ function getPercentageChangeLastTime(type) {
     });
 }
 
-module.exports = (input1, input2) => {
-    return getValue(input1, input2);
+module.exports = options => {
+    return getValue(options);
 }
-
-module.exports.getConvertedValue = (currencyCode, input1, input2) => {
-    return getConvertedValue(currencyCode, input1, input2);
-};
 
 module.exports.getPercentageChangeLastHour = () => {
     return getPercentageChangeLastTime('1h');

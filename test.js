@@ -41,25 +41,55 @@ test('returned value is non-negative number', t => {
     });
 });
 
-test('does throw error if parameters are wrong #1', t => {
-    return btcValue('string').then(() => {
-        t.fail();
+test('return integer when options is `currencyCode`: `USD`', t => {
+    return btcValue({currencyCode: 'USD'}).then(value => {
+        t.is(typeof value, 'number');
+        t.is(value % 1, 0);
     }).catch(() => {
-        t.pass();
+        t.fail();
     });
 });
 
-test('does throw error if parameters are wrong #2', t => {
-    return btcValue(['array', 'input']).then(() => {
-        t.fail();
+test('return decimal when options is `currencyCode`: `USD` and `isDecimal`: `true`', t => {
+    return btcValue({currencyCode: 'USD', isDecimal: true}).then(value => {
+        t.is(typeof value, 'number');
+        t.not(value % 1, 0);
     }).catch(() => {
-        t.pass();
+        t.fail();
     });
 });
 
-test('correct parameter test', t => {
-    return btcValue.getConvertedValue('USD').then(() => {
-        t.pass();
+test('return integer when options is `currencyCode`: `USD`, `isDecimal`: `true` and `quantity`: `2.2`', t => {
+    return btcValue({currencyCode: 'USD', isDecimal: false, quantity: 2.2}).then(value => {
+        t.is(typeof value, 'number');
+        t.is(value % 1, 0);
+    }).catch(() => {
+        t.fail();
+    });
+});
+
+test('return integer when `isDecimal` is false', t => {
+    return btcValue({isDecimal: false}).then(value => {
+        t.is(typeof value, 'number');
+        t.is(value % 1, 0);
+    }).catch(() => {
+        t.fail();
+    });
+});
+
+test('return decimal when `isDecimal` is true', t => {
+    return btcValue({isDecimal: true}).then(value => {
+        t.is(typeof value, 'number');
+        t.not(value % 1, 0);
+    }).catch(() => {
+        t.fail();
+    });
+});
+
+test('return integer when `isDecimal` is not in options', t => {
+    return btcValue({isDecimalsss: true}).then(value => {
+        t.is(typeof value, 'number');
+        t.is(value % 1, 0);
     }).catch(() => {
         t.fail();
     });
