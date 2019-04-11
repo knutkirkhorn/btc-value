@@ -7,4 +7,5 @@ script:
   - npm run lint
   - npm test
 
-after_success: nyc report --reporter=text-lcov | coveralls
+after_success:
+  - npm run coveralls

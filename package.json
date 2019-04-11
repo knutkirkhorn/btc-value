@@ -6,7 +6,8 @@
   "scripts": {
     "test": "ava",
     "lint": "eslint .",
-    "coverage": "nyc ava"
+    "coverage": "nyc ava",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
