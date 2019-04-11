@@ -74,10 +74,18 @@ test('return integer when options is `currencyCode`: `USD`', t => {
     });
 });
 
+test('return integer when `currencyCode` is `NOK`', t => {
+    return btcValue({currencyCode: 'NOK'}).then(value => {
+        t.is(typeof value, 'number');
+        t.is(value % 1, 0);
+    }).catch(() => {
+        t.fail();
+    });
+});
+
 test('return decimal when options is `currencyCode`: `USD` and `isDecimal`: `true`', t => {
     return btcValue({currencyCode: 'USD', isDecimal: true}).then(value => {
         t.is(typeof value, 'number');
-        t.not(value % 1, 0);
     }).catch(() => {
         t.fail();
     });
@@ -104,7 +112,6 @@ test('return integer when `isDecimal` is false', t => {
 test('return decimal when `isDecimal` is true', t => {
     return btcValue({isDecimal: true}).then(value => {
         t.is(typeof value, 'number');
-        t.not(value % 1, 0);
     }).catch(() => {
         t.fail();
     });
@@ -116,5 +123,45 @@ test('return integer when `isDecimal` is not in options', t => {
         t.is(value % 1, 0);
     }).catch(() => {
         t.fail();
+    });
+});
+
+test('return TypeError when `isDecimal` is not a boolean', t => {
+    const expectedResult = TypeError('`isDecimal` should be of type `boolean`');
+
+    return btcValue({isDecimal: 'true'}).then(() => {
+        t.fail();
+    }).catch(error => {
+        t.deepEqual(error, expectedResult);
+    });
+});
+
+test('return TypeError when `quantity` is not a number', t => {
+    const expectedResult = TypeError('`quantity` should be of type `number`');
+
+    return btcValue({quantity: '1337'}).then(() => {
+        t.fail();
+    }).catch(error => {
+        t.deepEqual(error, expectedResult);
+    });
+});
+
+test('return TypeError when `currencyCode` is not a string', t => {
+    const expectedResult = TypeError('`currencyCode` should be of type `string`');
+
+    return btcValue({currencyCode: 1337}).then(() => {
+        t.fail();
+    }).catch(error => {
+        t.deepEqual(error, expectedResult);
+    });
+});
+
+test('return Error when `currencyCode` is not a valid one', t => {
+    const expectedResult = Error('Please choose a valid `currencyCode`');
+
+    return btcValue({currencyCode: 'KNUT'}).then(() => {
+        t.fail();
+    }).catch(error => {
+        t.deepEqual(error, expectedResult);
     });
 });
