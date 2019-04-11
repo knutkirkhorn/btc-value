@@ -17,8 +17,32 @@ test('returned value is a number #1', t => {
     });
 });
 
-test('returned value is a number #2', t => {
+test('percentage last hour return a number', t => {
+    return btcValue.getPercentageChangeLastHour().then(value => {
+        t.is(typeof value, 'number');
+
+        if (isNaN(value)) {
+            t.fail();
+        }
+    }).catch(() => {
+        t.fail();
+    });
+});
+
+test('percentage last day return a number', t => {
     return btcValue.getPercentageChangeLastDay().then(value => {
+        t.is(typeof value, 'number');
+
+        if (isNaN(value)) {
+            t.fail();
+        }
+    }).catch(() => {
+        t.fail();
+    });
+});
+
+test('percentage last week return a number', t => {
+    return btcValue.getPercentageChangeLastWeek().then(value => {
         t.is(typeof value, 'number');
 
         if (isNaN(value)) {
