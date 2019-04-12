@@ -126,6 +126,10 @@ function getPercentageChangeLastTime(type) {
     return new Promise((resolve, reject) => {
         sendHttpRequest(apiURL).then(response => {
             try {
+                if (!response['percent_change_' + type]) {
+                    throw new Error('Failed to retrieve percentage change');
+                }
+
                 const percentageChange = parseFloat(response['percent_change_' + type]);
                 resolve(percentageChange);
                 return;

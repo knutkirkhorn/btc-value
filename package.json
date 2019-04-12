@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "ava",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "coverage": "nyc ava",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,9 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^1.4.1",
-    "eslint": "^5.16.0"
+    "coveralls": "^3.0.3",
+    "eslint": "^5.16.0",
+    "nock": "^10.0.6",
+    "nyc": "^13.3.0"
   }
 }

@@ -9,7 +9,7 @@
 
 > Get the current Bitcoin value
 
-[![Build Status](https://travis-ci.org/Knutakir/btc-value.svg?branch=master)](https://travis-ci.org/Knutakir/btc-value) [![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value)
+[![Build Status](https://travis-ci.org/Knutakir/btc-value.svg?branch=master)](https://travis-ci.org/Knutakir/btc-value) [![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://coveralls.io/repos/github/Knutakir/btc-value/badge.svg?branch=master)](https://coveralls.io/github/Knutakir/btc-value?branch=master)
 
 ## Installation
 ```
