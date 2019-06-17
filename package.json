@@ -22,10 +22,10 @@
   "author": "Knut Kirkhorn",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^1.4.1",
-    "coveralls": "^3.0.3",
+    "ava": "^2.1.0",
+    "coveralls": "^3.0.4",
     "eslint": "^5.16.0",
     "nock": "^10.0.6",
-    "nyc": "^13.3.0"
+    "nyc": "^14.1.1"
   }
 }
