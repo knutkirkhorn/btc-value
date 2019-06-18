@@ -1,19 +1,71 @@
 [
     {
+        "code": "USD",
+        "symbol": "$"
+    },
+    {
+        "code": "ALL",
+        "symbol": "L"
+    },
+    {
+        "code": "DZD",
+        "symbol": "د.ج"
+    },
+    {
+        "code": "ARS",
+        "symbol": "$"
+    },
+    {
+        "code": "AMD",
+        "symbol": "֏"
+    },
+    {
         "code": "AUD",
         "symbol": "$"
+    },
+    {
+        "code": "AZN",
+        "symbol": "₼"
+    },
+    {
+        "code": "BHD",
+        "symbol": ".د.ب"
+    },
+    {
+        "code": "BDT",
+        "symbol": "৳"
+    },
+    {
+        "code": "BYN",
+        "symbol": "Br"
+    },
+    {
+        "code": "BMD",
+        "symbol": "$"
+    },
+    {
+        "code": "BOB",
+        "symbol": "Bs."
+    },
+    {
+        "code": "BAM",
+        "symbol": "KM"
     },
     {
         "code": "BRL",
         "symbol": "R$"
     },
     {
-        "code": "CAD",
-        "symbol": "$"
+        "code": "BGN",
+        "symbol": "лв"
     },
     {
-        "code": "CHF",
-        "symbol": "Fr."
+        "code": "KHR",
+        "symbol": "៛"
+    },
+    {
+        "code": "CAD",
+        "symbol": "$"
     },
     {
         "code": "CLP",
@@ -21,7 +73,23 @@
     },
     {
         "code": "CNY",
-        "symbol": "RMB"
+        "symbol": "¥"
+    },
+    {
+        "code": "COP",
+        "symbol": "$"
+    },
+    {
+        "code": "CRC",
+        "symbol": "₡"
+    },
+    {
+        "code": "HRK",
+        "symbol": "kn"
+    },
+    {
+        "code": "CUP",
+        "symbol": "$"
     },
     {
         "code": "CZK",
@@ -32,99 +100,275 @@
         "symbol": "kr."
     },
     {
+        "code": "DOP",
+        "symbol": "$"
+    },
+    {
+        "code": "EGP",
+        "symbol": "£"
+    },
+    {
         "code": "EUR",
         "symbol": "€"
     },
     {
-        "code": "GBP",
-        "symbol": "£"
+        "code": "GEL",
+        "symbol": "₾"
+    },
+    {
+        "code": "GHS",
+        "symbol": "₵"
+    },
+    {
+        "code": "GTQ",
+        "symbol": "Q"
+    },
+    {
+        "code": "HNL",
+        "symbol": "L"
     },
     {
         "code": "HKD",
-        "symbol": "HK$"
+        "symbol": "$"
     },
     {
         "code": "HUF",
         "symbol": "Ft"
     },
     {
-        "code": "IDR",
-        "symbol": "Rp"
-    },
-    {
-        "code": "ILS",
-        "symbol": "₪"
+        "code": "ISK",
+        "symbol": "kr"
     },
     {
         "code": "INR",
         "symbol": "₹"
     },
     {
+        "code": "IDR",
+        "symbol": "Rp"
+    },
+    {
+        "code": "IRR",
+        "symbol": "﷼"
+    },
+    {
+        "code": "IQD",
+        "symbol": "ع.د"
+    },
+    {
+        "code": "ILS",
+        "symbol": "₪"
+    },
+    {
+        "code": "JMD",
+        "symbol": "$"
+    },
+    {
         "code": "JPY",
         "symbol": "¥"
     },
     {
-        "code": "KRW",
-        "symbol": "₩"
+        "code": "JOD",
+        "symbol": "د.ا"
     },
     {
-        "code": "MXN",
-        "symbol": "$"
+        "code": "KZT",
+        "symbol": "₸"
+    },
+    {
+        "code": "KES",
+        "symbol": "Sh"
+    },
+    {
+        "code": "KWD",
+        "symbol": "د.ك"
+    },
+    {
+        "code": "KGS",
+        "symbol": "с"
+    },
+    {
+        "code": "LBP",
+        "symbol": "ل.ل"
+    },
+    {
+        "code": "MKD",
+        "symbol": "ден"
     },
     {
         "code": "MYR",
         "symbol": "RM"
     },
     {
-        "code": "NOK",
-        "symbol": "kr"
+        "code": "MUR",
+        "symbol": "₨"
+    },
+    {
+        "code": "MXN",
+        "symbol": "$"
+    },
+    {
+        "code": "MDL",
+        "symbol": "L"
+    },
+    {
+        "code": "MNT",
+        "symbol": "₮"
+    },
+    {
+        "code": "MAD",
+        "symbol": "د.م."
+    },
+    {
+        "code": "MMK",
+        "symbol": "Ks"
+    },
+    {
+        "code": "NAD",
+        "symbol": "$"
+    },
+    {
+        "code": "NPR",
+        "symbol": "₨"
+    },
+    {
+        "code": "TWD",
+        "symbol": "$"
     },
     {
         "code": "NZD",
         "symbol": "$"
     },
     {
-        "code": "USD",
-        "symbol": "$"
+        "code": "NIO",
+        "symbol": "C$"
     },
     {
-        "code": "PHP",
-        "symbol": "₱"
+        "code": "NGN",
+        "symbol": "₦"
+    },
+    {
+        "code": "NOK",
+        "symbol": "kr"
+    },
+    {
+        "code": "OMR",
+        "symbol": "ر.ع."
     },
     {
         "code": "PKR",
         "symbol": "₨"
     },
     {
+        "code": "PAB",
+        "symbol": "B/."
+    },
+    {
+        "code": "PEN",
+        "symbol": "S/."
+    },
+    {
+        "code": "PHP",
+        "symbol": "₱"
+    },
+    {
         "code": "PLN",
         "symbol": "zł"
+    },
+    {
+        "code": "GBP",
+        "symbol": "£"
+    },
+    {
+        "code": "QAR",
+        "symbol": "ر.ق"
+    },
+    {
+        "code": "RON",
+        "symbol": "lei"
     },
     {
         "code": "RUB",
         "symbol": "₽"
     },
     {
+        "code": "SAR",
+        "symbol": "ر.س"
+    },
+    {
+        "code": "RSD",
+        "symbol": "дин."
+    },
+    {
+        "code": "SGD",
+        "symbol": "$"
+    },
+    {
+        "code": "ZAR",
+        "symbol": "R"
+    },
+    {
+        "code": "KRW",
+        "symbol": "₩"
+    },
+    {
+        "code": "SSP",
+        "symbol": "£"
+    },
+    {
+        "code": "VES",
+        "symbol": "Bs."
+    },
+    {
+        "code": "LKR",
+        "symbol": "Rs"
+    },
+    {
         "code": "SEK",
         "symbol": "kr"
     },
     {
-        "code": "SGD",
-        "symbol": "S$"
+        "code": "CHF",
+        "symbol": "Fr."
     },
     {
         "code": "THB",
         "symbol": "฿"
     },
     {
+        "code": "TTD",
+        "symbol": "$"
+    },
+    {
+        "code": "TND",
+        "symbol": "د.ت"
+    },
+    {
         "code": "TRY",
         "symbol": "₺"
     },
     {
-        "code": "TWD",
-        "symbol": "NT$"
+        "code": "UGX",
+        "symbol": "Sh"
     },
     {
-        "code": "ZAR",
-        "symbol": "R"
+        "code": "UAH",
+        "symbol": "₴"
+    },
+    {
+        "code": "AED",
+        "symbol": "د.إ"
+    },
+    {
+        "code": "UYU",
+        "symbol": "$"
+    },
+    {
+        "code": "UZS",
+        "symbol": "so'm"
+    },
+    {
+        "code": "VND",
+        "symbol": "₫"
     }
 ]
