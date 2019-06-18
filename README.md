@@ -49,6 +49,10 @@ btcValue.getPercentageChangeLastDay().then(percentage => {
     console.log(percentage + '%');
     // => e.g. 5%
 });
+
+// Print all supported currencies
+console.log(btcValue.currencies);
+// => [ ..., { name: 'Norwegian Krone', code: 'NOK', symbol: 'kr' }, ... ]
 ```
 
 ## API
@@ -86,7 +90,7 @@ Returns the percentage change of BTC the last day.
 Returns the percentage change of BTC the last week.
 
 ### btcValue.currencies
-Returns an array with all the currencies specified in [currencies.json](currencies.json).
+Returns an array with all the supported currencies specified in [currencies.json](currencies.json).
 Example of the format for a single currency in the list:
 ```json
 {
