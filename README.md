@@ -77,13 +77,24 @@ Default: `USD`
 Returns the current Bitcoin value in a different currency than `USD`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
 
 ### btcValue.getPercentageChangeLastHour()
-Return the percentage change of BTC the last hour.
+Returns the percentage change of BTC the last hour.
 
 ### btcValue.getPercentageChangeLastDay()
-Return the percentage change of BTC the last day.
+Returns the percentage change of BTC the last day.
 
 ### btcValue.getPercentageChangeLastWeek()
-Return the percentage change of BTC the last week.
+Returns the percentage change of BTC the last week.
+
+### btcValue.currencies
+Returns an array with all the currencies specified in [currencies.json](currencies.json).
+Example of the format for a single currency in the list:
+```json
+{
+    "name": "Norwegian Krone",
+    "code": "NOK",
+    "symbol": "kr"
+}
+```
 
 ## Related
 - [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
