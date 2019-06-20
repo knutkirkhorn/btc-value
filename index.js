@@ -1,4 +1,5 @@
 'use strict';
+
 const https = require('https');
 const currencies = require('./currencies.json');
 const apiURL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/';
@@ -7,21 +8,21 @@ function sendHttpRequest(url) {
     return new Promise((resolve, reject) => {
         https.get(url, response => {
             if (response.statusCode < 200 || response.statusCode > 299) {
-                reject(new Error('Failed to load url: ' + response.statusCode));
+                reject(new Error(`Failed to load url: ${response.statusCode}`));
                 return;
             }
 
             response.setEncoding('UTF-8');
             let data = '';
 
-            response.on('data', function(body) {
+            response.on('data', body => {
                 data += body;
             });
 
-            response.on('end', function() {
+            response.on('end', () => {
                 try {
                     resolve(JSON.parse(data)[0]);
-                } catch(err) {
+                } catch (err) {
                     // If not able to parse JSON or get the first parsed value
                     reject(new Error('Failed to retrieve Bitcoin value'));
                     return;
@@ -60,7 +61,7 @@ function parseOptions(currencyValue, options) {
 
     // If `isDecimal` is false => return an integer
     if (!isDecimal) {
-        currencyValue = parseInt(currencyValue);
+        currencyValue = parseInt(currencyValue, 10);
     }
 
     return convertToTwoDecimals(currencyValue);
@@ -81,7 +82,7 @@ function getValue(options) {
         }, options);
 
         const {currencyCode} = options;
-        
+
         // Check that the type of `currencyCode` is `string`
         if (typeof currencyCode !== 'string') {
             throw new TypeError('`currencyCode` should be of type `string`');
@@ -102,18 +103,18 @@ function getValue(options) {
         }
 
         if (currencyCode !== 'USD') {
-            url += '?convert=' + currencyCode;
+            url += `?convert=${currencyCode}`;
         }
 
         sendHttpRequest(url).then(response => {
             // Set the `currencyValue` to the `USD` value by default
-            let currencyValue = (currencyCode === 'USD') ? response.price_usd : response['price_' + currencyCode.toLowerCase()];
+            let currencyValue = (currencyCode === 'USD') ? response.price_usd : response[`price_${currencyCode.toLowerCase()}`];
 
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
                 return;
             }
-            
+
             currencyValue = Number(currencyValue);
             currencyValue = parseOptions(currencyValue, options);
             resolve(currencyValue);
@@ -126,14 +127,14 @@ function getPercentageChangeLastTime(type) {
     return new Promise((resolve, reject) => {
         sendHttpRequest(apiURL).then(response => {
             try {
-                if (!response['percent_change_' + type]) {
+                if (!response[`percent_change_${type}`]) {
                     throw new Error('Failed to retrieve percentage change');
                 }
 
-                const percentageChange = parseFloat(response['percent_change_' + type]);
+                const percentageChange = parseFloat(response[`percent_change_${type}`]);
                 resolve(percentageChange);
                 return;
-            } catch(err) {
+            } catch (err) {
                 reject(new Error('Failed to retrieve percentage change'));
                 return;
             }
@@ -141,20 +142,12 @@ function getPercentageChangeLastTime(type) {
     });
 }
 
-module.exports = options => {
-    return getValue(options);
-};
+module.exports = options => getValue(options);
 
-module.exports.getPercentageChangeLastHour = () => {
-    return getPercentageChangeLastTime('1h');
-};
+module.exports.getPercentageChangeLastHour = () => getPercentageChangeLastTime('1h');
 
-module.exports.getPercentageChangeLastDay = () => {
-    return getPercentageChangeLastTime('24h');
-};
+module.exports.getPercentageChangeLastDay = () => getPercentageChangeLastTime('24h');
 
-module.exports.getPercentageChangeLastWeek = () => {
-    return getPercentageChangeLastTime('7d');
-};
+module.exports.getPercentageChangeLastWeek = () => getPercentageChangeLastTime('7d');
 
 module.exports.currencies = currencies;

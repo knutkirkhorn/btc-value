@@ -2,172 +2,197 @@ import test from 'ava';
 import nock from 'nock';
 import btcValue from '.';
 
-test('value return something', t => {
-    return btcValue().then(() => {
+test('value return something', async t => {
+    try {
+        await btcValue();
         t.pass();
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('returned value is a number #1', t => {
-    return btcValue().then(value => {
+test('returned value is a number #1', async t => {
+    try {
+        const value = await btcValue();
         t.is(typeof value, 'number');
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('percentage last hour return a number', t => {
-    return btcValue.getPercentageChangeLastHour().then(value => {
+test('percentage last hour return a number', async t => {
+    try {
+        const value = await btcValue.getPercentageChangeLastHour();
         t.is(typeof value, 'number');
 
-        if (isNaN(value)) {
+        if (Number.isNaN(value)) {
             t.fail();
         }
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('percentage last day return a number', t => {
-    return btcValue.getPercentageChangeLastDay().then(value => {
-        t.is(typeof value, 'number');
+test('percentage last day return a number', async t => {
+    try {
+        const value = await btcValue.getPercentageChangeLastDay();
 
-        if (isNaN(value)) {
+        t.is(typeof value, 'number');
+        if (Number.isNaN(value)) {
             t.fail();
         }
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('percentage last week return a number', t => {
-    return btcValue.getPercentageChangeLastWeek().then(value => {
+test('percentage last week return a number', async t => {
+    try {
+        const value = await btcValue.getPercentageChangeLastWeek();
         t.is(typeof value, 'number');
 
-        if (isNaN(value)) {
+        if (Number.isNaN(value)) {
             t.fail();
         }
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('returned value is non-negative number', t => {
-    return btcValue().then(value => {
+test('returned value is non-negative number', async t => {
+    try {
+        const value = await btcValue();
+
         if (value >= 0) {
             t.pass();
         } else {
             t.fail();
         }
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('return integer when options is `currencyCode`: `USD`', t => {
-    return btcValue({currencyCode: 'USD'}).then(value => {
+test('return integer when options is `currencyCode`: `USD`', async t => {
+    try {
+        const value = await btcValue({currencyCode: 'USD'});
+
         t.is(typeof value, 'number');
         t.is(value % 1, 0);
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('return integer when `currencyCode` is `NOK`', t => {
-    return btcValue({currencyCode: 'NOK'}).then(value => {
+test('return integer when `currencyCode` is `NOK`', async t => {
+    try {
+        const value = await btcValue({currencyCode: 'NOK'});
+
         t.is(typeof value, 'number');
         t.is(value % 1, 0);
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('return decimal when options is `currencyCode`: `USD` and `isDecimal`: `true`', t => {
-    return btcValue({currencyCode: 'USD', isDecimal: true}).then(value => {
+test('return decimal when options is `currencyCode`: `USD` and `isDecimal`: `true`', async t => {
+    try {
+        const value = await btcValue({currencyCode: 'USD', isDecimal: true});
+
         t.is(typeof value, 'number');
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('return integer when options is `currencyCode`: `USD`, `isDecimal`: `true` and `quantity`: `2.2`', t => {
-    return btcValue({currencyCode: 'USD', isDecimal: false, quantity: 2.2}).then(value => {
-        t.is(typeof value, 'number');
-        t.is(value % 1, 0);
-    }).catch(() => {
-        t.fail();
-    });
-});
+test('return integer when options is `currencyCode`: `USD`, `isDecimal`: `true` and `quantity`: `2.2`', async t => {
+    try {
+        const value = await btcValue({currencyCode: 'USD', isDecimal: false, quantity: 2.2});
 
-test('return integer when `isDecimal` is false', t => {
-    return btcValue({isDecimal: false}).then(value => {
         t.is(typeof value, 'number');
         t.is(value % 1, 0);
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('return decimal when `isDecimal` is true', t => {
-    return btcValue({isDecimal: true}).then(value => {
-        t.is(typeof value, 'number');
-    }).catch(() => {
-        t.fail();
-    });
-});
+test('return integer when `isDecimal` is false', async t => {
+    try {
+        const value = await btcValue({isDecimal: false});
 
-test('return integer when `isDecimal` is not in options', t => {
-    return btcValue({isDecimalsss: true}).then(value => {
         t.is(typeof value, 'number');
         t.is(value % 1, 0);
-    }).catch(() => {
+    } catch (e) {
         t.fail();
-    });
+    }
 });
 
-test('return TypeError when `isDecimal` is not a boolean', t => {
+test('return decimal when `isDecimal` is true', async t => {
+    try {
+        const value = await btcValue({isDecimal: true});
+
+        t.is(typeof value, 'number');
+    } catch (e) {
+        t.fail();
+    }
+});
+
+test('return integer when `isDecimal` is not in options', async t => {
+    try {
+        const value = await btcValue({isDecimalsss: true});
+
+        t.is(typeof value, 'number');
+        t.is(value % 1, 0);
+    } catch (e) {
+        t.fail();
+    }
+});
+
+test('return TypeError when `isDecimal` is not a boolean', async t => {
     const expectedResult = TypeError('`isDecimal` should be of type `boolean`');
 
-    return btcValue({isDecimal: 'true'}).then(() => {
+    try {
+        await btcValue({isDecimal: 'true'});
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('return TypeError when `quantity` is not a number', t => {
+test('return TypeError when `quantity` is not a number', async t => {
     const expectedResult = TypeError('`quantity` should be of type `number`');
 
-    return btcValue({quantity: '1337'}).then(() => {
+    try {
+        await btcValue({quantity: '1337'});
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('return TypeError when `currencyCode` is not a string', t => {
+test('return TypeError when `currencyCode` is not a string', async t => {
     const expectedResult = TypeError('`currencyCode` should be of type `string`');
 
-    return btcValue({currencyCode: 1337}).then(() => {
+    try {
+        await btcValue({currencyCode: 1337});
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('return Error when `currencyCode` is not a valid one', t => {
+test('return Error when `currencyCode` is not a valid one', async t => {
     const expectedResult = Error('Please choose a valid `currencyCode`');
 
-    return btcValue({currencyCode: 'KNUT'}).then(() => {
+    try {
+        await btcValue({currencyCode: 'KNUT'});
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return invalid data response', t => {
+test('server return invalid data response', async t => {
     const expectedResult = TypeError('Cannot read property \'price_usd\' of undefined');
 
     nock('https://api.coinmarketcap.com')
@@ -176,28 +201,30 @@ test('server return invalid data response', t => {
             invalid_response: 'here'
         });
 
-    return btcValue().then(() => {
+    try {
+        await btcValue();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return non-JSON response', t => {
+test('server return non-JSON response', async t => {
     const expectedResult = Error('Failed to retrieve Bitcoin value');
 
     nock('https://api.coinmarketcap.com')
         .get('/v1/ticker/bitcoin/')
         .reply(200, 'no_json here');
 
-    return btcValue().then(() => {
+    try {
+        await btcValue();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return invalid HTTP status code (123)', t => {
+test('server return invalid HTTP status code (123)', async t => {
     const expectedResult = Error('Failed to load url: 123');
 
     nock('https://api.coinmarketcap.com')
@@ -206,14 +233,15 @@ test('server return invalid HTTP status code (123)', t => {
             invalid_response: 'here'
         });
 
-    return btcValue().then(() => {
+    try {
+        await btcValue();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return invalid HTTP status code (1337)', t => {
+test('server return invalid HTTP status code (1337)', async t => {
     const expectedResult = Error('Failed to load url: 1337');
 
     nock('https://api.coinmarketcap.com')
@@ -222,14 +250,15 @@ test('server return invalid HTTP status code (1337)', t => {
             invalid_response: 'here'
         });
 
-    return btcValue().then(() => {
+    try {
+        await btcValue();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return error code', t => {
+test('server return error code', async t => {
     const expectedResult = {
         errno: 'ECONNREFUSED',
         code: 'ECONNREFUSED',
@@ -244,14 +273,15 @@ test('server return error code', t => {
             syscall: 'connect'
         });
 
-    return btcValue().then(() => {
+    try {
+        await btcValue();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return missing data (missing `price_usd`)', t => {
+test('server return missing data (missing `price_usd`)', async t => {
     const expectedResult = Error('Failed to retrieve Bitcoin value');
 
     nock('https://api.coinmarketcap.com')
@@ -262,14 +292,15 @@ test('server return missing data (missing `price_usd`)', t => {
             }
         ]);
 
-    return btcValue().then(() => {
+    try {
+        await btcValue();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
-test('server return missing data (missing percent change)', t => {
+test('server return missing data (missing percent change)', async t => {
     const expectedResult = Error('Failed to retrieve percentage change');
 
     nock('https://api.coinmarketcap.com')
@@ -280,11 +311,12 @@ test('server return missing data (missing percent change)', t => {
             }
         ]);
 
-    return btcValue.getPercentageChangeLastWeek().then(() => {
+    try {
+        await btcValue.getPercentageChangeLastWeek();
         t.fail();
-    }).catch(error => {
+    } catch (error) {
         t.deepEqual(error, expectedResult);
-    });
+    }
 });
 
 test.after(() => {
