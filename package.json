@@ -22,7 +22,7 @@
   "author": "Knut Kirkhorn",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^2.1.0",
+    "ava": "^2.2.0",
     "coveralls": "^3.0.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
