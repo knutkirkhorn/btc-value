@@ -2,6 +2,11 @@ import test from 'ava';
 import nock from 'nock';
 import btcValue from '.';
 
+test.after(() => {
+    // Clean all nocks
+    nock.cleanAll();
+});
+
 test('value return something', async t => {
     try {
         await btcValue();
@@ -317,9 +322,4 @@ test('server return missing data (missing percent change)', async t => {
     } catch (error) {
         t.deepEqual(error, expectedResult);
     }
-});
-
-test.after(() => {
-    // Clean all nocks
-    nock.cleanAll();
 });
