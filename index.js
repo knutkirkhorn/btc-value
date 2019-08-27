@@ -76,10 +76,11 @@ function getValue(options) {
         let url = apiURL;
 
         // Set default value of `currencyCode` and `isDecimal`
-        options = Object.assign({
+        options = {
             currencyCode: 'USD',
-            isDecimal: false
-        }, options);
+            isDecimal: false,
+            ...options
+        };
 
         const {currencyCode} = options;
 
