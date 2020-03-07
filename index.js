@@ -2,9 +2,17 @@
 
 const https = require('https');
 const currencies = require('./currencies.json');
-const apiURL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/';
+const baseUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC';
+let apiKey = '';
 
-function sendHttpRequest(url) {
+function sendHttpRequest(urlParameters = '') {
+    // Check if the api key is provided
+    if (!apiKey) {
+        throw new Error('`apiKey` needs to be set. Call `.setApiKey()` with your API key before calling other functions.');
+    }
+
+    const url = `${baseUrl}${urlParameters}&CMC_PRO_API_KEY=${apiKey}`;
+
     return new Promise((resolve, reject) => {
         https.get(url, response => {
             if (response.statusCode < 200 || response.statusCode > 299) {
@@ -21,7 +29,14 @@ function sendHttpRequest(url) {
 
             response.on('end', () => {
                 try {
-                    resolve(JSON.parse(data)[0]);
+                    const jsonResponse = JSON.parse(data);
+
+                    // Check if there are errors in the API response
+                    if (jsonResponse.status && jsonResponse.status.error_code !== 0) {
+                        reject(new Error(`Error occurred while retrieving Bitcoin value: ${jsonResponse.status.error_message}`));
+                    }
+
+                    resolve(jsonResponse.data.BTC);
                 } catch (error) {
                     // If not able to parse JSON or get the first parsed value
                     reject(new Error('Failed to retrieve Bitcoin value'));
@@ -35,8 +50,17 @@ function sendHttpRequest(url) {
     });
 }
 
+function setApiKey(key) {
+    // Check if the API key is provided
+    if (!key) {
+        throw new Error('You need to provide an API key.');
+    }
+
+    apiKey = key;
+}
+
 function convertToTwoDecimals(number) {
-    // Check if the number is not a int => convert to 2 decimals
+    // Check if the number is not an integer. If it is not, convert it to two decimals.
     if (number % 1 !== 0) {
         return parseFloat(number.toFixed(2));
     }
@@ -47,15 +71,8 @@ function convertToTwoDecimals(number) {
 function parseOptions(currencyValue, options) {
     const {isDecimal, quantity} = options;
 
-    if (typeof isDecimal !== 'boolean') {
-        throw new TypeError('`isDecimal` should be of type `boolean`');
-    }
-
+    // Set the new currency value if quantity is provided
     if (quantity) {
-        if (typeof quantity !== 'number') {
-            throw new TypeError('`quantity` should be of type `number`');
-        }
-
         currencyValue *= quantity;
     }
 
@@ -67,13 +84,9 @@ function parseOptions(currencyValue, options) {
     return convertToTwoDecimals(currencyValue);
 }
 
-// input1 can both be boolean (isDecimal) and number (quantity), but not the same type
-// input2 can be boolean (isDecimal) if input1 is number (quantity)
-// TODO: new text here
-
 function getValue(options) {
     return new Promise((resolve, reject) => {
-        let url = apiURL;
+        let urlParameters = '';
 
         // Set default value of `currencyCode` and `isDecimal`
         options = {
@@ -82,11 +95,23 @@ function getValue(options) {
             ...options
         };
 
-        const {currencyCode} = options;
+        let {currencyCode} = options;
+        const {isDecimal, quantity} = options;
 
         // Check that the type of `currencyCode` is `string`
         if (typeof currencyCode !== 'string') {
             throw new TypeError('`currencyCode` should be of type `string`');
+        }
+
+        // Ensure the currency code is uppercase
+        currencyCode = currencyCode.toUpperCase();
+
+        if (typeof isDecimal !== 'boolean') {
+            throw new TypeError('`isDecimal` should be of type `boolean`');
+        }
+
+        if (quantity && typeof quantity !== 'number') {
+            throw new TypeError('`quantity` should be of type `number`');
         }
 
         // Check if the current currency code mathches any valid ones
@@ -104,12 +129,12 @@ function getValue(options) {
         }
 
         if (currencyCode !== 'USD') {
-            url += `?convert=${currencyCode}`;
+            urlParameters += `&convert=${currencyCode}`;
         }
 
-        sendHttpRequest(url).then(response => {
+        sendHttpRequest(urlParameters).then(response => {
             // Set the `currencyValue` to the `USD` value by default
-            let currencyValue = (currencyCode === 'USD') ? response.price_usd : response[`price_${currencyCode.toLowerCase()}`];
+            let currencyValue = (currencyCode === 'USD') ? response.quote.USD.price : response.quote[currencyCode].price;
 
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
@@ -126,24 +151,21 @@ function getValue(options) {
 
 function getPercentageChangeLastTime(type) {
     return new Promise((resolve, reject) => {
-        sendHttpRequest(apiURL).then(response => {
-            try {
-                if (!response[`percent_change_${type}`]) {
-                    throw new Error('Failed to retrieve percentage change');
-                }
-
-                const percentageChange = parseFloat(response[`percent_change_${type}`]);
-                resolve(percentageChange);
-                return;
-            } catch (error) {
-                reject(new Error('Failed to retrieve percentage change'));
-                return;
+        sendHttpRequest().then(response => {
+            if (!response.quote || !response.quote.USD || (response.quote && !response.quote.USD[`percent_change_${type}`])) {
+                throw new Error('Failed to retrieve percentage change');
             }
-        });
+
+            const percentageChange = parseFloat(response.quote.USD[`percent_change_${type}`]);
+            resolve(percentageChange);
+            return;
+        }).catch(error => reject(error));
     });
 }
 
 module.exports = options => getValue(options);
+
+module.exports.setApiKey = key => setApiKey(key);
 
 module.exports.getPercentageChangeLastHour = () => getPercentageChangeLastTime('1h');
 
