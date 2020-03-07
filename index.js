@@ -15,7 +15,7 @@ function sendHttpRequest(urlParameters = '') {
 
     return new Promise((resolve, reject) => {
         https.get(url, response => {
-            if (response.statusCode < 200 || response.statusCode > 299) {
+            if (response.statusCode < 200 || (response.statusCode > 299 && response.statusCode !== 401)) {
                 reject(new Error(`Failed to load url: ${response.statusCode}`));
                 return;
             }
