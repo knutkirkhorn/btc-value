@@ -2,8 +2,19 @@ import test from 'ava';
 import nock from 'nock';
 import btcValue from '.';
 
-test.before(() => {
-    // Set an example API key for all tests
+test.before(async t => {
+    const expectedResult = new Error('`apiKey` needs to be set. Call `.setApiKey()` with your API key before calling other functions.');
+
+    // Check that the function can not be called without an API key
+    // This will throw an error
+    try {
+        await btcValue();
+        t.fail();
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+
+    // Set an example API key for all remaining tests
     btcValue.setApiKey('example-CMC-PRO-API-key');
 });
 
@@ -51,11 +62,15 @@ test('throws error if no API key is provided to `.setApiKey()`', t => {
     }
 });
 
-// TODO: test this
-// test('throws error if no API keys is not set', async t => {
-//     // Reset the API key for this function
-//     // This happens if `.setApiKey()` is not called
-// });
+test('throws TypeError when `apiKey` is not a string', t => {
+    const expectedResult = new TypeError('`apiKey` should be of type `string`');
+
+    try {
+        btcValue.setApiKey(1337);
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+});
 
 test('returned value is a number', async t => {
     try {

@@ -3,15 +3,15 @@
 const https = require('https');
 const currencies = require('./currencies.json');
 const baseUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC';
-let apiKey = '';
+let cmcApiKey = '';
 
 function sendHttpRequest(urlParameters = '') {
     // Check if the api key is provided
-    if (!apiKey) {
+    if (!cmcApiKey) {
         throw new Error('`apiKey` needs to be set. Call `.setApiKey()` with your API key before calling other functions.');
     }
 
-    const url = `${baseUrl}${urlParameters}&CMC_PRO_API_KEY=${apiKey}`;
+    const url = `${baseUrl}${urlParameters}&CMC_PRO_API_KEY=${cmcApiKey}`;
 
     return new Promise((resolve, reject) => {
         https.get(url, response => {
@@ -50,13 +50,18 @@ function sendHttpRequest(urlParameters = '') {
     });
 }
 
-function setApiKey(key) {
+function setApiKey(apiKey) {
     // Check if the API key is provided
-    if (!key) {
+    if (!apiKey) {
         throw new Error('You need to provide an API key.');
     }
 
-    apiKey = key;
+    // Check that the type of `apiKey` is `string`
+    if (typeof apiKey !== 'string') {
+        throw new TypeError('`apiKey` should be of type `string`');
+    }
+
+    cmcApiKey = apiKey;
 }
 
 function convertToTwoDecimals(number) {
