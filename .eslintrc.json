@@ -35,6 +35,7 @@
         "strict": "off",
         "import/newline-after-import": "off",
         "no-param-reassign": "off",
-        "no-useless-return": "off"
+        "no-useless-return": "off",
+        "max-len": "off"
     }
 }

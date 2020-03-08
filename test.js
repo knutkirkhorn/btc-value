@@ -2,21 +2,77 @@ import test from 'ava';
 import nock from 'nock';
 import btcValue from '.';
 
+test.before(async t => {
+    const expectedResult = new Error('`apiKey` needs to be set. Call `.setApiKey()` with your API key before calling other functions.');
+
+    // Check that the function can not be called without an API key
+    // This will throw an error
+    try {
+        await btcValue();
+        t.fail();
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+
+    // Set an example API key for all remaining tests
+    btcValue.setApiKey('example-CMC-PRO-API-key');
+});
+
 test.after(() => {
     // Clean all nocks
     nock.cleanAll();
 });
 
-test('value return something', async t => {
+test.beforeEach(() => {
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
+        .reply(200, {
+            status: {
+                error_code: 0,
+                error_message: null
+            },
+            data: {
+                BTC: {
+                    quote: {
+                        USD: {
+                            price: 8983.34736401,
+                            percent_change_1h: -1.67074,
+                            percent_change_24h: -1.0296,
+                            percent_change_7d: 3.72573
+                        },
+                        NOK: {
+                            price: 83110.91835295832,
+                            percent_change_1h: -1.73148,
+                            percent_change_24h: -1.05610461,
+                            percent_change_7d: 2.12793914
+                        }
+                    }
+                }
+            }
+        });
+});
+
+test('throws error if no API key is provided to `.setApiKey()`', t => {
+    const expectedResult = new Error('You need to provide an API key.');
+
     try {
-        await btcValue();
-        t.pass();
+        btcValue.setApiKey('');
     } catch (error) {
-        t.fail();
+        t.deepEqual(error, expectedResult);
     }
 });
 
-test('returned value is a number #1', async t => {
+test('throws TypeError when `apiKey` is not a string', t => {
+    const expectedResult = new TypeError('`apiKey` should be of type `string`');
+
+    try {
+        btcValue.setApiKey(1337);
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+});
+
+test('returned value is a number', async t => {
     try {
         const value = await btcValue();
         t.is(typeof value, 'number');
@@ -57,20 +113,6 @@ test('percentage last week return a number', async t => {
         t.is(typeof value, 'number');
 
         if (Number.isNaN(value)) {
-            t.fail();
-        }
-    } catch (error) {
-        t.fail();
-    }
-});
-
-test('returned value is non-negative number', async t => {
-    try {
-        const value = await btcValue();
-
-        if (value >= 0) {
-            t.pass();
-        } else {
             t.fail();
         }
     } catch (error) {
@@ -149,6 +191,7 @@ test('return integer when `isDecimal` is not in options', async t => {
         t.is(typeof value, 'number');
         t.is(value % 1, 0);
     } catch (error) {
+        t.is(error, '');
         t.fail();
     }
 });
@@ -198,10 +241,12 @@ test('return Error when `currencyCode` is not a valid one', async t => {
 });
 
 test('server return invalid data response', async t => {
-    const expectedResult = new TypeError('Cannot read property \'price_usd\' of undefined');
+    const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
         .reply(200, {
             invalid_response: 'here'
         });
@@ -217,8 +262,10 @@ test('server return invalid data response', async t => {
 test('server return non-JSON response', async t => {
     const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
         .reply(200, 'no_json here');
 
     try {
@@ -232,8 +279,10 @@ test('server return non-JSON response', async t => {
 test('server return invalid HTTP status code (123)', async t => {
     const expectedResult = new Error('Failed to load url: 123');
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
         .reply(123, {
             invalid_response: 'here'
         });
@@ -249,8 +298,10 @@ test('server return invalid HTTP status code (123)', async t => {
 test('server return invalid HTTP status code (1337)', async t => {
     const expectedResult = new Error('Failed to load url: 1337');
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
         .reply(1337, {
             invalid_response: 'here'
         });
@@ -270,8 +321,10 @@ test('server return error code', async t => {
         syscall: 'connect'
     };
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
         .replyWithError({
             errno: 'ECONNREFUSED',
             code: 'ECONNREFUSED',
@@ -289,8 +342,10 @@ test('server return error code', async t => {
 test('server return missing data (missing `price_usd`)', async t => {
     const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
         .reply(200, [
             {
                 missing_data: 'here'
@@ -308,16 +363,70 @@ test('server return missing data (missing `price_usd`)', async t => {
 test('server return missing data (missing percent change)', async t => {
     const expectedResult = new Error('Failed to retrieve percentage change');
 
-    nock('https://api.coinmarketcap.com')
-        .get('/v1/ticker/bitcoin/')
-        .reply(200, [
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
+        .reply(200, {
+            data:
             {
-                missing_data: 'here'
+                BTC: {
+                    missing_data: 'here'
+                }
             }
-        ]);
+        });
 
     try {
         await btcValue.getPercentageChangeLastWeek();
+        t.fail();
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+});
+
+test('throws error if API key is invalid', async t => {
+    const expectedResult = new Error('Error occurred while retrieving Bitcoin value: This API Key is invalid.');
+
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
+        .reply(200, {
+            status: {
+                error_code: 1001,
+                error_message: 'This API Key is invalid.'
+            }
+        });
+
+    try {
+        await btcValue();
+        t.fail();
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+});
+
+test('server return missing data (missing currency value)', async t => {
+    const expectedResult = new Error('Failed to retrieve Bitcoin value');
+
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/cryptocurrency\/quotes\/latest/)
+        .reply(200, {
+            data: {
+                BTC: {
+                    quote: {
+                        USD: {
+                            something_else: 'here'
+                        }
+                    }
+                }
+            }
+        });
+
+    try {
+        await btcValue();
         t.fail();
     } catch (error) {
         t.deepEqual(error, expectedResult);

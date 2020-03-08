@@ -20,6 +20,9 @@ $ npm install btc-value
 ```js
 const btcValue = require('btc-value');
 
+// Set the API key
+btcValue.setApiKey('example-API-key');
+
 // Print the current value of Bitcoin in USD
 btcValue().then(value => {
     console.log('$' + value);
@@ -56,7 +59,7 @@ console.log(btcValue.currencies);
 ```
 
 ## API
-The Bitcoin value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/).
+The Bitcoin value is from [Cryptocurrency Market Capitalizations](https://coinmarketcap.com/). See API [here](https://coinmarketcap.com/api/). To use the module for retrieve Bitcoin values, it is required to obtain and use an API key. This can be done [here](https://coinmarketcap.com/api/). Before using the functions for retrieving the Bitcoin value, one must then call `btcValue.setApiKey(<KEY_HERE>)` with your key.
 ### btcValue([options])
 Returns the current Bitcoin value in USD ($) as an `integer`.
 
@@ -79,6 +82,12 @@ Type: `string`<br>
 Default: `USD`
 
 Returns the current Bitcoin value in a different currency than `USD`. All valid currency codes are stored in the [currencies.json](currencies.json) file.
+
+### btcValue.setApiKey(apiKey)
+Sets the API key for the [Cryptocurrency Market Capitalizations API](https://coinmarketcap.com/api/) used in the requests. This is required to call the other functions.
+
+#### apiKey
+Type: `string`<br>
 
 ### btcValue.getPercentageChangeLastHour()
 Returns the percentage change of BTC the last hour.
