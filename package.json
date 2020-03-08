@@ -4,11 +4,15 @@
   "description": "Get the current Bitcoin value",
   "main": "index.js",
   "scripts": {
-    "test": "ava",
+    "test": "ava && tsd",
     "lint": "eslint .",
     "coverage": "nyc ava",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Knutakir/btc-value.git"
@@ -29,6 +33,7 @@
     "eslint-plugin-ava": "^10.2.0",
     "eslint-plugin-import": "^2.20.1",
     "nock": "^12.0.2",
-    "nyc": "^15.0.0"
+    "nyc": "^15.0.0",
+    "tsd": "^0.11.0"
   }
 }
