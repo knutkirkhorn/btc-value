@@ -22,13 +22,13 @@
   "author": "Knut Kirkhorn",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^2.3.0",
-    "coveralls": "^3.0.6",
-    "eslint": "^6.2.2",
+    "ava": "^2.4.0",
+    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-ava": "^8.0.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-ava": "^10.2.0",
+    "eslint-plugin-import": "^2.20.1",
     "nock": "^12.0.2",
-    "nyc": "^14.1.1"
+    "nyc": "^15.0.0"
   }
 }
