@@ -138,8 +138,8 @@ function getValue(options) {
         }
 
         sendHttpRequest(urlParameters).then(response => {
-            // Set the `currencyValue` to the `USD` value by default
-            let currencyValue = (currencyCode === 'USD') ? response.quote.USD.price : response.quote[currencyCode].price;
+            // Set the `currencyValue` to the value for the specified currency
+            let currencyValue = response.quote[currencyCode].price;
 
             if (!currencyValue) {
                 reject(new Error('Failed to retrieve Bitcoin value'));
