@@ -169,13 +169,8 @@ function getPercentageChangeLastTime(type) {
 }
 
 module.exports = options => getValue(options);
-
 module.exports.setApiKey = key => setApiKey(key);
-
 module.exports.getPercentageChangeLastHour = () => getPercentageChangeLastTime('1h');
-
 module.exports.getPercentageChangeLastDay = () => getPercentageChangeLastTime('24h');
-
 module.exports.getPercentageChangeLastWeek = () => getPercentageChangeLastTime('7d');
-
 module.exports.currencies = currencies;
