@@ -4,6 +4,9 @@ const https = require('https');
 const currencies = require('./currencies.json');
 const baseUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC';
 let cmcApiKey = '';
+const httpHeader = {
+    'User-Agent': 'btc-value (https://github.com/Knutakir/btc-value)'
+};
 
 function sendHttpRequest(urlParameters = '') {
     // Check if the api key is provided
@@ -14,7 +17,7 @@ function sendHttpRequest(urlParameters = '') {
     const url = `${baseUrl}${urlParameters}&CMC_PRO_API_KEY=${cmcApiKey}`;
 
     return new Promise((resolve, reject) => {
-        https.get(url, response => {
+        https.get(url, {headers: httpHeader}, response => {
             if (response.statusCode < 200 || (response.statusCode > 299 && response.statusCode !== 401)) {
                 reject(new Error(`Failed to load url: ${response.statusCode}`));
                 return;
