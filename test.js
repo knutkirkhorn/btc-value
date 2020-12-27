@@ -1,6 +1,6 @@
-import test from 'ava';
-import nock from 'nock';
-import btcValue from '.';
+const test = require('ava');
+const nock = require('nock');
+const btcValue = require('.');
 
 test.before(async t => {
     const expectedResult = new Error('`apiKey` needs to be set. Call `.setApiKey()` with your API key before calling other functions.');
