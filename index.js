@@ -2,6 +2,7 @@
 
 const https = require('https');
 const currencies = require('./currencies.json');
+
 const baseUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC';
 let cmcApiKey = '';
 const httpHeader = {
@@ -43,12 +44,10 @@ function sendHttpRequest(urlParameters = '') {
                 } catch (error) {
                     // If not able to parse JSON or get the first parsed value
                     reject(new Error('Failed to retrieve Bitcoin value'));
-                    return;
                 }
             });
         }).on('error', error => {
             reject(error);
-            return;
         });
     });
 }
@@ -152,7 +151,6 @@ function getValue(options) {
             currencyValue = Number(currencyValue);
             currencyValue = parseOptions(currencyValue, options);
             resolve(currencyValue);
-            return;
         }).catch(error => reject(error));
     });
 }
@@ -166,7 +164,6 @@ function getPercentageChangeLastTime(type) {
 
             const percentageChange = parseFloat(response.quote.USD[`percent_change_${type}`]);
             resolve(percentageChange);
-            return;
         }).catch(error => reject(error));
     });
 }
