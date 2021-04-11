@@ -1,7 +1,7 @@
 <h1 align="center">
 	<br>
 	<br>
-	<img width="360" src="https://rawgit.com/Knutakir/btc-value/master/media/logo.svg" alt="btc-value">
+	<img width="360" src="https://rawgit.com/Knutakir/btc-value/main/media/logo.svg" alt="btc-value">
 	<br>
 	<br>
 	<br>
@@ -9,7 +9,7 @@
 
 > Get the current Bitcoin value
 
-[![Build Status](https://travis-ci.org/Knutakir/btc-value.svg?branch=master)](https://travis-ci.org/Knutakir/btc-value) [![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://coveralls.io/repos/github/Knutakir/btc-value/badge.svg?branch=master)](https://coveralls.io/github/Knutakir/btc-value?branch=master)
+[![Build Status](https://travis-ci.org/Knutakir/btc-value.svg?branch=main)](https://travis-ci.org/Knutakir/btc-value) [![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://coveralls.io/repos/github/Knutakir/btc-value/badge.svg?branch=main)](https://coveralls.io/github/Knutakir/btc-value?branch=main)
 
 ## Installation
 ```
