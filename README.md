@@ -1,7 +1,7 @@
 <h1 align="center">
 	<br>
 	<br>
-	<img width="360" src="https://rawgit.com/knutkirkhorn/btc-value/main/media/logo.svg" alt="btc-value">
+	<img width="360" src="https://raw.githubusercontent.com/knutkirkhorn/btc-value/main/media/logo.svg" alt="btc-value">
 	<br>
 	<br>
 	<br>
