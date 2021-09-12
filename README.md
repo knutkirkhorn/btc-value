@@ -1,7 +1,7 @@
 <h1 align="center">
 	<br>
 	<br>
-	<img width="360" src="https://rawgit.com/Knutakir/btc-value/main/media/logo.svg" alt="btc-value">
+	<img width="360" src="https://rawgit.com/knutkirkhorn/btc-value/main/media/logo.svg" alt="btc-value">
 	<br>
 	<br>
 	<br>
@@ -9,7 +9,7 @@
 
 > Get the current Bitcoin value
 
-[![Build Status](https://travis-ci.org/Knutakir/btc-value.svg?branch=main)](https://travis-ci.org/Knutakir/btc-value) [![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://coveralls.io/repos/github/Knutakir/btc-value/badge.svg?branch=main)](https://coveralls.io/github/Knutakir/btc-value?branch=main)
+[![Build Status](https://travis-ci.org/knutkirkhorn/btc-value.svg?branch=main)](https://travis-ci.org/knutkirkhorn/btc-value) [![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://coveralls.io/repos/github/knutkirkhorn/btc-value/badge.svg?branch=main)](https://coveralls.io/github/knutkirkhorn/btc-value?branch=main)
 
 ## Installation
 ```
@@ -110,7 +110,7 @@ Example of the format for a single currency in the list:
 ```
 
 ## Related
-- [btc-value-cli](https://github.com/Knutakir/btc-value-cli) - CLI for this module
+- [btc-value-cli](https://github.com/knutkirkhorn/btc-value-cli) - CLI for this module
 
 ## License
 MIT © [Knut Kirkhorn](LICENSE)

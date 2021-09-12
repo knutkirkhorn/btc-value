@@ -6,7 +6,7 @@ const currencies = require('./currencies.json');
 const baseUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest?symbol=BTC';
 let cmcApiKey = '';
 const httpHeader = {
-    'User-Agent': 'btc-value (https://github.com/Knutakir/btc-value)'
+    'User-Agent': 'btc-value (https://github.com/knutkirkhorn/btc-value)'
 };
 
 function sendHttpRequest(urlParameters = '') {
