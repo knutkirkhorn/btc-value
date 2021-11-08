@@ -7,6 +7,7 @@
     "test": "ava && tsd",
     "lint": "eslint .",
     "coverage": "nyc ava",
+    "testcoverage": "nyc report --reporter=json",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "files": [
