@@ -6,9 +6,7 @@
   "scripts": {
     "test": "ava && tsd",
     "lint": "eslint .",
-    "coverage": "nyc ava",
-    "testcoverage": "nyc report --reporter=json",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc ava && nyc report --reporter=json"
   },
   "files": [
     "index.js",
