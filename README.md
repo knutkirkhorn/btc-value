@@ -9,7 +9,7 @@
 
 > Get the current Bitcoin value
 
-[![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://coveralls.io/repos/github/knutkirkhorn/btc-value/badge.svg?branch=main)](https://coveralls.io/github/knutkirkhorn/btc-value?branch=main)
+[![Downloads](https://img.shields.io/npm/dm/btc-value.svg)](https://www.npmjs.com/package/btc-value) [![Coverage Status](https://codecov.io/gh/knutkirkhorn/btc-value/branch/main/graph/badge.svg)](https://codecov.io/gh/knutkirkhorn/btc-value)
 
 ## Installation
 ```
