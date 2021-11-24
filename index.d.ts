@@ -19,11 +19,17 @@ declare namespace btcValue {
         */
         currencyCode?: string;
     }
+
+    type CurrencyProvider = 'cmc' | 'coingecko'
     
-    interface Currency {
+    interface CMCCurrency {
         name: string,
         code: string,
         symbol: string
+    }
+
+    interface CoinGeckoCurrency {
+        code: string
     }
 }
 
@@ -34,7 +40,14 @@ declare const btcValue: {
     (options?: btcValue.Options): Promise<number>;
 
     /**
-    Set the API key to the the [Cryptocurrency Market Capitalizations API](https://coinmarketcap.com/api/).
+    Set the selected provider to retrieve Bitcoin values from. Supported providers are: `cmc` (CoinMarketCap) and `coingecko`.
+
+    @param provider 
+     */
+    setProvider(provider: btcValue.CurrencyProvider): void;
+
+    /**
+    Set the API key for the selected value provider. Currently only CoinMarketCap supports using an API key. This is required to call the functions with the [CoinMarketCap API](https://coinmarketcap.com/api/).
 
     @param apiKey
     */
@@ -58,9 +71,9 @@ declare const btcValue: {
     /**
     Get all supported currencies.
 
-    @returns Supported currency objects.
+    @returns An array of all the supported currencies for the selected value provider.
     */
-    currencies: btcValue.Currency[];
+    getSupportedCurrencies(): Promise<btcValue.CMCCurrency[] | btcValue.CoinGeckoCurrency[]>;
 }
 
 export = btcValue;
