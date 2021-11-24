@@ -1,6 +1,6 @@
 const test = require('ava');
 const nock = require('nock');
-const btcValue = require('.');
+const btcValue = require('..');
 
 test.before(() => {
     // Use CoinGecko as provider for these tests

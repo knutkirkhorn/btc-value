@@ -1,6 +1,6 @@
 const test = require('ava');
 const nock = require('nock');
-const btcValue = require('.');
+const btcValue = require('..');
 
 test.before(async t => {
     const expectedResult = new Error('`apiKey` needs to be set if using CoinMarketCap. Call `.setApiKey()` with your API key before calling other functions.');
