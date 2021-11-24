@@ -71,36 +71,6 @@ test('set `cmc` as provider', t => {
     }
 });
 
-test('set invalid provider throws error', t => {
-    const expectedResult = new Error('`provider` needs to be one of `cmc` and `coingecko`');
-
-    try {
-        btcValue.setProvider('knuts-api');
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
-test('throws error if no API key is provided to `.setApiKey()`', t => {
-    const expectedResult = new Error('You need to provide an API key.');
-
-    try {
-        btcValue.setApiKey('');
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
-test('throws TypeError when `apiKey` is not a string', t => {
-    const expectedResult = new TypeError('`apiKey` should be of type `string`');
-
-    try {
-        btcValue.setApiKey(1337);
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
 test('returned value is a number', async t => {
     try {
         const value = await btcValue();
@@ -222,39 +192,6 @@ test('return integer when `isDecimal` is not in options', async t => {
     } catch (error) {
         t.is(error, '');
         t.fail();
-    }
-});
-
-test('return TypeError when `isDecimal` is not a boolean', async t => {
-    const expectedResult = new TypeError('`isDecimal` should be of type `boolean`');
-
-    try {
-        await btcValue({isDecimal: 'true'});
-        t.fail();
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
-test('return TypeError when `quantity` is not a number', async t => {
-    const expectedResult = new TypeError('`quantity` should be of type `number`');
-
-    try {
-        await btcValue({quantity: '1337'});
-        t.fail();
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
-test('return TypeError when `currencyCode` is not a string', async t => {
-    const expectedResult = new TypeError('`currencyCode` should be of type `string`');
-
-    try {
-        await btcValue({currencyCode: 1337});
-        t.fail();
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
     }
 });
 
