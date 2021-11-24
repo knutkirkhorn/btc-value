@@ -1,14 +1,24 @@
 const test = require('ava');
 const nock = require('nock');
-const btcValue = require('.');
+const btcValue = require('..');
 
 test.before(async t => {
-    const expectedResult = new Error('`apiKey` needs to be set. Call `.setApiKey()` with your API key before calling other functions.');
+    const expectedResult = new Error('`apiKey` needs to be set if using CoinMarketCap. Call `.setApiKey()` with your API key before calling other functions.');
+    btcValue.setProvider('cmc');
 
-    // Check that the function can not be called without an API key
+    // Check that the function can not be called without an API key for `cmc` as provider
     // This will throw an error
     try {
         await btcValue();
+        t.fail();
+    } catch (error) {
+        t.deepEqual(error, expectedResult);
+    }
+
+    // Check that the function can not be called without an API key for `cmc` as provider
+    // This will throw an error
+    try {
+        await btcValue.getSupportedCurrencies();
         t.fail();
     } catch (error) {
         t.deepEqual(error, expectedResult);
@@ -52,23 +62,12 @@ test.beforeEach(() => {
         });
 });
 
-test('throws error if no API key is provided to `.setApiKey()`', t => {
-    const expectedResult = new Error('You need to provide an API key.');
-
+test('set `cmc` as provider', t => {
     try {
-        btcValue.setApiKey('');
+        btcValue.setProvider('cmc');
+        t.pass();
     } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
-test('throws TypeError when `apiKey` is not a string', t => {
-    const expectedResult = new TypeError('`apiKey` should be of type `string`');
-
-    try {
-        btcValue.setApiKey(1337);
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
+        t.fail();
     }
 });
 
@@ -196,44 +195,106 @@ test('return integer when `isDecimal` is not in options', async t => {
     }
 });
 
-test('return TypeError when `isDecimal` is not a boolean', async t => {
-    const expectedResult = new TypeError('`isDecimal` should be of type `boolean`');
+test('supported currencies returns array of `cmc` currency objects', async t => {
+    const expectedResult = [
+        {
+            id: 2781,
+            name: 'United States Dollar',
+            sign: '$',
+            symbol: 'USD'
+        },
+        {
+            id: 2782,
+            name: 'Australian Dollar',
+            sign: '$',
+            symbol: 'AUD'
+        }
+    ];
+
+    nock.cleanAll();
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/fiat\/map/)
+        .reply(200, {
+            data: [
+                {
+                    id: 2781,
+                    name: 'United States Dollar',
+                    sign: '$',
+                    symbol: 'USD'
+                },
+                {
+                    id: 2782,
+                    name: 'Australian Dollar',
+                    sign: '$',
+                    symbol: 'AUD'
+                }
+            ]
+        });
 
     try {
-        await btcValue({isDecimal: 'true'});
+        const supportedCurrencies = await btcValue.getSupportedCurrencies();
+        t.is(typeof supportedCurrencies, 'object');
+        t.deepEqual(supportedCurrencies, expectedResult);
+    } catch (error) {
+        t.is(error, '');
+        t.fail();
+    }
+});
+
+test('server return invalid response for supported currencies', async t => {
+    const expectedResult = new Error('Failed to retrieve supported currencies');
+
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/fiat\/map/)
+        .reply(200, {
+            invalid_response: 'here'
+        });
+
+    try {
+        await btcValue.getSupportedCurrencies();
         t.fail();
     } catch (error) {
         t.deepEqual(error, expectedResult);
     }
 });
 
-test('return TypeError when `quantity` is not a number', async t => {
-    const expectedResult = new TypeError('`quantity` should be of type `number`');
+test('server return invalid HTTP status code (123) for supported currencies', async t => {
+    const expectedResult = new Error('Failed to retrieve supported currencies');
+
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/fiat\/map/)
+        .reply(123, {
+            invalid_response: 'here'
+        });
 
     try {
-        await btcValue({quantity: '1337'});
+        await btcValue.getSupportedCurrencies();
         t.fail();
     } catch (error) {
         t.deepEqual(error, expectedResult);
     }
 });
 
-test('return TypeError when `currencyCode` is not a string', async t => {
-    const expectedResult = new TypeError('`currencyCode` should be of type `string`');
+test('throws error if API key is invalid for supported currencies', async t => {
+    const expectedResult = new Error('Failed to retrieve supported currencies');
+
+    nock.cleanAll();
+
+    nock('https://pro-api.coinmarketcap.com')
+        .get(/v1\/fiat\/map/)
+        .reply(200, {
+            status: {
+                error_code: 1001,
+                error_message: 'This API Key is invalid.'
+            }
+        });
 
     try {
-        await btcValue({currencyCode: 1337});
-        t.fail();
-    } catch (error) {
-        t.deepEqual(error, expectedResult);
-    }
-});
-
-test('return Error when `currencyCode` is not a valid one', async t => {
-    const expectedResult = new Error('Please choose a valid `currencyCode`');
-
-    try {
-        await btcValue({currencyCode: 'KNUT'});
+        await btcValue.getSupportedCurrencies();
         t.fail();
     } catch (error) {
         t.deepEqual(error, expectedResult);
@@ -277,7 +338,7 @@ test('server return non-JSON response', async t => {
 });
 
 test('server return invalid HTTP status code (123)', async t => {
-    const expectedResult = new Error('Failed to load url: 123');
+    const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
     nock.cleanAll();
 
@@ -296,7 +357,7 @@ test('server return invalid HTTP status code (123)', async t => {
 });
 
 test('server return invalid HTTP status code (1337)', async t => {
-    const expectedResult = new Error('Failed to load url: 1337');
+    const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
     nock.cleanAll();
 
@@ -315,11 +376,7 @@ test('server return invalid HTTP status code (1337)', async t => {
 });
 
 test('server return error code', async t => {
-    const expectedResult = {
-        errno: 'ECONNREFUSED',
-        code: 'ECONNREFUSED',
-        syscall: 'connect'
-    };
+    const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
     nock.cleanAll();
 
@@ -385,7 +442,7 @@ test('server return missing data (missing percent change)', async t => {
 });
 
 test('throws error if API key is invalid', async t => {
-    const expectedResult = new Error('Error occurred while retrieving Bitcoin value: This API Key is invalid.');
+    const expectedResult = new Error('Failed to retrieve Bitcoin value');
 
     nock.cleanAll();
 

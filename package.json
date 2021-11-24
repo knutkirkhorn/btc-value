@@ -4,14 +4,13 @@
   "description": "Get the current Bitcoin value",
   "main": "index.js",
   "scripts": {
-    "test": "ava && tsd",
+    "test": "ava --serial && tsd",
     "lint": "eslint .",
-    "coverage": "nyc ava && nyc report --reporter=json"
+    "coverage": "nyc ava --serial && nyc report --reporter=json"
   },
   "files": [
     "index.js",
-    "index.d.ts",
-    "currencies.json"
+    "index.d.ts"
   ],
   "repository": {
     "type": "git",
@@ -25,6 +24,9 @@
   ],
   "author": "Knut Kirkhorn",
   "license": "MIT",
+  "dependencies": {
+    "got": "^9.6.0"
+  },
   "devDependencies": {
     "ava": "^3.15.0",
     "eslint": "^7.24.0",
