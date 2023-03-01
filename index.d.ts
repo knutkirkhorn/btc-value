@@ -1,79 +1,78 @@
-declare namespace btcValue {
-    interface Options {
-        /**
-        To return the number as a decimal number.
-    
-        @default false
-        */
-        isDecimal?: boolean;
-        
-        /**
-        To return the value of a specified quantity.
-        */
-        quantity?: number;
-    
-        /**
-        To return the value of a specified currency.
-    
-        @default 'USD'
-        */
-        currencyCode?: string;
-    }
+export type Options = {
+	/**
+	To return the number as a decimal number.
 
-    type CurrencyProvider = 'cmc' | 'coingecko'
-    
-    interface CMCCurrency {
-        name: string,
-        code: string,
-        symbol: string
-    }
+	@default false
+	*/
+	isDecimal?: boolean;
 
-    interface CoinGeckoCurrency {
-        code: string
-    }
-}
+	/**
+	To return the value of a specified quantity.
+	*/
+	quantity?: number;
 
-declare const btcValue: {
-    /**
-    Get the current Bitcoin value.
-    */
-    (options?: btcValue.Options): Promise<number>;
+	/**
+	To return the value of a specified currency.
 
-    /**
-    Set the selected provider to retrieve Bitcoin values from. Supported providers are: `cmc` (CoinMarketCap) and `coingecko`.
+	@default 'USD'
+	*/
+	currencyCode?: string;
+};
 
-    @param provider 
-     */
-    setProvider(provider: btcValue.CurrencyProvider): void;
+export type CurrencyProvider = 'cmc' | 'coingecko';
 
-    /**
-    Set the API key for the selected value provider. Currently only CoinMarketCap supports using an API key. This is required to call the functions with the [CoinMarketCap API](https://coinmarketcap.com/api/).
+export type CMCCurrency = {
+	name: string,
+	code: string,
+	symbol: string
+};
 
-    @param apiKey
-    */
-    setApiKey(apiKey: string): void;
+/**
+Get the current Bitcoin value.
 
-    /**
-    Get the percentage change of BTC the last hour.
-    */
-    getPercentageChangeLastHour(): Promise<number>;
+@param options
 
-    /**
-    Get the percentage change of BTC the last day.
-    */
-    getPercentageChangeLastDay(): Promise<number>;
+@example
+```
+import btcValue from 'btc-value';
+console.log(`$${await btcValue()}`);
+// => e.g. $11048
+```
+*/
+export default function btcValue(options?: Options): Promise<number>;
 
-    /**
-    Get the percentage change of BTC the last week.
-    */
-    getPercentageChangeLastWeek(): Promise<number>;
+/**
+Set the selected provider to retrieve Bitcoin values from. Supported providers are: `cmc` (CoinMarketCap) and `coingecko`.
 
-    /**
-    Get all supported currencies.
+@param provider
+*/
+export function setProvider(provider: CurrencyProvider): void;
 
-    @returns An array of all the supported currencies for the selected value provider.
-    */
-    getSupportedCurrencies(): Promise<btcValue.CMCCurrency[] | btcValue.CoinGeckoCurrency[]>;
-}
+/**
+Set the API key for the selected value provider. Currently only CoinMarketCap supports using an API key. This is required to call the functions with the [CoinMarketCap API](https://coinmarketcap.com/api/).
 
-export = btcValue;
+@param apiKey
+*/
+export function setApiKey(apiKey: string): void;
+
+/**
+Get the percentage change of BTC the last hour.
+*/
+export function getPercentageChangeLastHour(): Promise<number>;
+
+/**
+Get the percentage change of BTC the last day.
+*/
+export function getPercentageChangeLastDay(): Promise<number>;
+
+/**
+Get the percentage change of BTC the last week.
+*/
+export function getPercentageChangeLastWeek(): Promise<number>;
+
+/**
+Get all supported currencies.
+
+@returns An array of all the supported currencies for the selected value provider.
+*/
+export function getSupportedCurrencies(): Promise<CMCCurrency[] | string[]>;

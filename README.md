@@ -14,55 +14,49 @@
 ## Installation
 
 ```
-$ npm install btc-value
+npm install btc-value
 ```
 
 ## Usage
 
 ```js
-const btcValue = require('btc-value');
+import btcValue, {
+	setProvider,
+	setApiKey,
+	getPercentageChangeLastDay,
+	getSupportedCurrencies
+} from 'btc-value';
 
 // Set the value provider
-btcValue.setProvider('coingecko');
+setProvider('coingecko');
 
 // Set the API key
-btcValue.setApiKey('example-cmc-API-key');
+setApiKey('example-cmc-API-key');
 
 // Print the current value of Bitcoin in USD
-btcValue().then(value => {
-    console.log('$' + value);
-    // => e.g. $11048
-});
+console.log(`$${await btcValue()}`);
+// => e.g. $11048
 
 // Print the current value as a decimal number if `isDecimal` is `true`
-btcValue({isDecimal: true}).then(value => {
-    console.log('$' + value);
-    // => e.g. $11048.10
-});
+console.log(`$${await btcValue({isDecimal: true})}`);
+// => e.g. $11048.10
 
 // Print the current value of Bitcoin in NOK (Norwegian krone)
-btcValue({currencyCode: 'NOK'}).then(value => {
-    console.log('kr ' + value);
-    // => e.g. kr 86664
-});
+console.log(`kr ${await btcValue({currencyCode: 'NOK'})}`);
+// => e.g. kr 86664
 
 // Print the current value of 2.2 BTC in USD
-btcValue({quantity: 2.2}).then(value => {
-    console.log('$' + value);
-    // => e.g. $24305.82
-});
+console.log(`$${await btcValue({quantity: 2.2})}`);
+// => e.g. $24305.82
 
 // Print the percentage change in BTC value the last day
-btcValue.getPercentageChangeLastDay().then(percentage => {
-    console.log(percentage + '%');
-    // => e.g. 5%
-});
+console.log(`${await getPercentageChangeLastDay()} %`);
+// => e.g. 5%
 
 // Print all supported currencies for selected value provider
-btcValue.getSupportedCurrencies().then(supportedCurrencies => {
-    console.log(supportedCurrencies);
-    // => [ ..., { name: 'Norwegian Krone', code: 'NOK', symbol: 'kr' }, ... ]
-});
+console.log(await getSupportedCurrencies());
+// => cmc: [ ..., { name: 'Norwegian Krone', code: 'NOK', symbol: 'kr' }, ... ]
+// => coingecko: [ ..., 'nok', ... ]
 ```
 
 ## API
@@ -97,7 +91,7 @@ Default: `USD`
 
 Returns the current Bitcoin value in a different currency than `USD`. All valid currency codes can be retrieved for the selected value provider using the `getSupportedCurrencies` function.
 
-### btcValue.setProvider(provider)
+### setProvider(provider)
 
 Sets the selected provider to retrieve Bitcoin values from. Supported providers are: `cmc` (CoinMarketCap) and `coingecko`.
 
@@ -105,7 +99,7 @@ Sets the selected provider to retrieve Bitcoin values from. Supported providers 
 
 Type: `string`<br>
 
-### btcValue.setApiKey(apiKey)
+### setApiKey(apiKey)
 
 Sets the API key for the selected value provider. Currently only CoinMarketCap supports using an API key. This is required to call the functions with the [CoinMarketCap API](https://coinmarketcap.com/api/).
 
@@ -113,19 +107,19 @@ Sets the API key for the selected value provider. Currently only CoinMarketCap s
 
 Type: `string`<br>
 
-### btcValue.getPercentageChangeLastHour()
+### getPercentageChangeLastHour()
 
 Returns the percentage change of BTC the last hour.
 
-### btcValue.getPercentageChangeLastDay()
+### getPercentageChangeLastDay()
 
 Returns the percentage change of BTC the last day.
 
-### btcValue.getPercentageChangeLastWeek()
+### getPercentageChangeLastWeek()
 
 Returns the percentage change of BTC the last week.
 
-### btcValue.getSupportedCurrencies()
+### getSupportedCurrencies()
 
 Returns an array with all the supported currencies for the selected value provider.
 Example of the format for a single currency in the list using CoinMarketCap:
