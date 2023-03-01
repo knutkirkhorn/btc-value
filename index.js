@@ -25,8 +25,7 @@ export async function getSupportedCurrencies() {
 
 	if (selectedProvider === 'cmc') {
 		try {
-			const {body} = await got(`https://pro-api.coinmarketcap.com/v1/fiat/map?CMC_PRO_API_KEY=${apiKey}`);
-			const jsonResponse = JSON.parse(body);
+			const jsonResponse = await got(`https://pro-api.coinmarketcap.com/v1/fiat/map?CMC_PRO_API_KEY=${apiKey}`).json();
 
 			// Check if there are errors in the API response
 			if (jsonResponse.status && jsonResponse.status.error_code !== 0) {
@@ -46,15 +45,14 @@ export async function getSupportedCurrencies() {
 
 	// Default to CoinGecko
 	try {
-		const {body} = await got('https://api.coingecko.com/api/v3/simple/supported_vs_currencies');
-		const jsonResponse = JSON.parse(body);
+		const supportedCurrenciesResponse = await got('https://api.coingecko.com/api/v3/simple/supported_vs_currencies').json();
 
-		if (!Array.isArray(jsonResponse)) {
+		if (!Array.isArray(supportedCurrenciesResponse)) {
 			// eslint-disable-next-line unicorn/prefer-type-error
 			throw new Error('Failed to retrieve supported currencies');
 		}
 
-		return jsonResponse;
+		return supportedCurrenciesResponse;
 	} catch {
 		// If not able to parse JSON or get the supported currencies
 		throw new Error('Failed to retrieve supported currencies');
@@ -71,8 +69,7 @@ async function sendHttpRequest(urlParameters = '') {
 	const url = `${baseUrl}${urlParameters}&CMC_PRO_API_KEY=${apiKey}`;
 
 	try {
-		const {body} = await got(url, {headers: packageUserAgent});
-		const jsonResponse = JSON.parse(body);
+		const jsonResponse = await got(url, {headers: packageUserAgent}).json();
 
 		// Check if there are errors in the API response
 		if (jsonResponse.status && jsonResponse.status.error_code !== 0) {
@@ -180,8 +177,7 @@ export default async function btcValue(options) {
 	} else {
 		// Default to CoinGecko
 		try {
-			const {body} = await got(`${providers[selectedProvider].baseUrl}&vs_currencies=${currencyCode}`);
-			const jsonResponse = JSON.parse(body);
+			const jsonResponse = await got(`${providers[selectedProvider].baseUrl}&vs_currencies=${currencyCode}`).json();
 
 			if (!jsonResponse.bitcoin || !jsonResponse.bitcoin[currencyCode.toLowerCase()]) {
 				throw new Error('Failed to retrieve Bitcoin value');
@@ -209,8 +205,7 @@ async function getPercentageChangeLastTime(type) {
 	}
 
 	// Default to CoinGecko
-	const {body} = await got(`https://api.coingecko.com/api/v3/coins/markets?ids=bitcoin&vs_currency=usd&price_change_percentage=${type}`);
-	const jsonResponse = JSON.parse(body);
+	const jsonResponse = await got(`https://api.coingecko.com/api/v3/coins/markets?ids=bitcoin&vs_currency=usd&price_change_percentage=${type}`).json();
 
 	if (!jsonResponse[0] || !jsonResponse[0][`price_change_percentage_${type}_in_currency`]) {
 		throw new Error('Failed to retrieve percentage change');
