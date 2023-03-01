@@ -30,7 +30,8 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"got": "^12.5.3"
+		"got": "^12.5.3",
+		"package-user-agent": "^1.0.1"
 	},
 	"devDependencies": {
 		"ava": "^5.2.0",

@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-unresolved
 import got from 'got';
+import getPackageUserAgent from 'package-user-agent';
 
 const providers = {
 	cmc: {
@@ -14,9 +15,7 @@ const providers = {
 
 let apiKey = '';
 let selectedProvider = 'coingecko';
-const httpHeader = {
-	'User-Agent': 'btc-value (https://github.com/knutkirkhorn/btc-value)'
-};
+const packageUserAgent = await getPackageUserAgent();
 
 export async function getSupportedCurrencies() {
 	// Check if the api key is needed for the selected provider
@@ -72,7 +71,7 @@ async function sendHttpRequest(urlParameters = '') {
 	const url = `${baseUrl}${urlParameters}&CMC_PRO_API_KEY=${apiKey}`;
 
 	try {
-		const {body} = await got(url, {headers: httpHeader});
+		const {body} = await got(url, {headers: packageUserAgent});
 		const jsonResponse = JSON.parse(body);
 
 		// Check if there are errors in the API response
