@@ -177,7 +177,7 @@ export default async function btcValue(options) {
 	} else {
 		// Default to CoinGecko
 		try {
-			const jsonResponse = await got(`${providers[selectedProvider].baseUrl}&vs_currencies=${currencyCode}`).json();
+			const jsonResponse = await got(`${providers[selectedProvider].baseUrl}&vs_currencies=${currencyCode}&precision=full`).json();
 
 			if (!jsonResponse.bitcoin || !jsonResponse.bitcoin[currencyCode.toLowerCase()]) {
 				throw new Error('Failed to retrieve Bitcoin value');
