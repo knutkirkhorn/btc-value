@@ -172,7 +172,7 @@ test('throws if missing percent change', async t => {
 	}
 });
 
-test('return integer when options is `currencyCode`: `USD`, `isDecimal`: `true` and `quantity`: `2.2`', async t => {
+test('return number when `currencyCode` is `USD`', async t => {
 	nock('https://api.coingecko.com')
 		.get(/api\/v3\/simple\/price/)
 		.reply(200, {
@@ -182,10 +182,9 @@ test('return integer when options is `currencyCode`: `USD`, `isDecimal`: `true` 
 		});
 
 	try {
-		const value = await btcValue({currencyCode: 'USD', isDecimal: false, quantity: 2.2});
+		const value = await btcValue('USD');
 
 		t.is(typeof value, 'number');
-		t.is(value % 1, 0);
 	} catch (error) {
 		t.is(error, '');
 		t.fail();

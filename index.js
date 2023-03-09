@@ -105,43 +105,8 @@ export function setApiKey(newApiKey) {
 	apiKey = newApiKey;
 }
 
-function convertToTwoDecimals(number) {
-	// Check if the number is not an integer. If it is not, convert it to two decimals.
-	if (number % 1 !== 0) {
-		return Number.parseFloat(number.toFixed(2));
-	}
-
-	return number;
-}
-
-function parseOptions(currencyValue, options) {
-	const {isDecimal, quantity} = options;
-
-	// Set the new currency value if quantity is provided
-	if (quantity) {
-		currencyValue *= quantity;
-	}
-
-	// If `isDecimal` is false => return an integer
-	if (!isDecimal) {
-		currencyValue = Number.parseInt(currencyValue, 10);
-	}
-
-	return convertToTwoDecimals(currencyValue);
-}
-
-export default async function btcValue(options) {
+export default async function btcValue(currencyCode = 'USD') {
 	let urlParameters = '';
-
-	// Set default value of `currencyCode` and `isDecimal`
-	options = {
-		currencyCode: 'USD',
-		isDecimal: false,
-		...options
-	};
-
-	let {currencyCode} = options;
-	const {isDecimal, quantity} = options;
 
 	// Check that the type of `currencyCode` is `string`
 	if (typeof currencyCode !== 'string') {
@@ -150,14 +115,6 @@ export default async function btcValue(options) {
 
 	// Ensure the currency code is uppercase
 	currencyCode = currencyCode.toUpperCase();
-
-	if (typeof isDecimal !== 'boolean') {
-		throw new TypeError('`isDecimal` should be of type `boolean`');
-	}
-
-	if (quantity && typeof quantity !== 'number') {
-		throw new TypeError('`quantity` should be of type `number`');
-	}
 
 	let currencyValue;
 
@@ -189,8 +146,7 @@ export default async function btcValue(options) {
 		}
 	}
 
-	currencyValue = Number(currencyValue);
-	return parseOptions(currencyValue, options);
+	return Number(currencyValue);
 }
 
 async function getPercentageChangeLastTime(type) {

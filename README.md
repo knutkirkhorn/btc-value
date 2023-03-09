@@ -37,12 +37,8 @@ setApiKey('example-cmc-API-key');
 console.log(`$${await btcValue()}`);
 // => e.g. $11048
 
-// Print the current value as a decimal number if `isDecimal` is `true`
-console.log(`$${await btcValue({isDecimal: true})}`);
-// => e.g. $11048.10
-
 // Print the current value of Bitcoin in NOK (Norwegian krone)
-console.log(`kr ${await btcValue({currencyCode: 'NOK'})}`);
+console.log(`kr ${await btcValue('NOK')}`);
 // => e.g. kr 86664
 
 // Print the current value of 2.2 BTC in USD
@@ -63,28 +59,11 @@ console.log(await getSupportedCurrencies());
 
 The Bitcoin value can be retrieved from [CoinMarketCap](https://coinmarketcap.com/) or [CoinGecko](https://www.coingecko.com). See the API used for CoinMarketCap [here](https://coinmarketcap.com/api/) and for CoinGecko [here](https://www.coingecko.com/en/api). If using the CoinMarketCap API to retrieve Bitcoin values, it is required to obtain and use an API key. This can be done [here](https://coinmarketcap.com/api/). Before using the functions for retrieving the Bitcoin value, one must then call `btcValue.setApiKey(<KEY_HERE>)` with your key. If using CoinGecko, this is not needed.
 
-### btcValue([options])
+### btcValue(currencyCode?)
 
-Returns the current Bitcoin value in USD ($) as an `integer`.
+Returns the current Bitcoin value in USD ($).
 
-#### options ***(optional)***
-
-Type: `object`
-
-##### isDecimal
-
-Type: `boolean`<br>
-Default: `false`
-
-Returns the current Bitcoin value as a `decimal number` if `isDecimal` is `true`.
-
-##### quantity
-
-Type: `number`
-
-Returns the current Bitcoin value of a specified `quantity`.
-
-##### currencyCode
+#### currencyCode
 
 Type: `string`<br>
 Default: `USD`
