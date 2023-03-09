@@ -1,24 +1,3 @@
-export type Options = {
-	/**
-	To return the number as a decimal number.
-
-	@default false
-	*/
-	isDecimal?: boolean;
-
-	/**
-	To return the value of a specified quantity.
-	*/
-	quantity?: number;
-
-	/**
-	To return the value of a specified currency.
-
-	@default 'USD'
-	*/
-	currencyCode?: string;
-};
-
 export type CurrencyProvider = 'cmc' | 'coingecko';
 
 export type CMCCurrency = {
@@ -30,7 +9,8 @@ export type CMCCurrency = {
 /**
 Get the current Bitcoin value.
 
-@param options
+@param currencyCode The currency to return the value in
+@default 'USD'
 
 @example
 ```
@@ -39,7 +19,7 @@ console.log(`$${await btcValue()}`);
 // => e.g. $11048
 ```
 */
-export default function btcValue(options?: Options): Promise<number>;
+export default function btcValue(currencyCode?: string): Promise<number>;
 
 /**
 Set the selected provider to retrieve Bitcoin values from. Supported providers are: `cmc` (CoinMarketCap) and `coingecko`.

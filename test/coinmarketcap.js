@@ -128,78 +128,12 @@ test('percentage last week return a number', async t => {
 	}
 });
 
-test('return integer when options is `currencyCode`: `USD`', async t => {
+test('return number when `currencyCode` is `USD`', async t => {
 	try {
-		const value = await btcValue({currencyCode: 'USD'});
-
-		t.is(typeof value, 'number');
-		t.is(value % 1, 0);
-	} catch {
-		t.fail();
-	}
-});
-
-test('return integer when `currencyCode` is `NOK`', async t => {
-	try {
-		const value = await btcValue({currencyCode: 'NOK'});
-
-		t.is(typeof value, 'number');
-		t.is(value % 1, 0);
-	} catch {
-		t.fail();
-	}
-});
-
-test('return decimal when options is `currencyCode`: `USD` and `isDecimal`: `true`', async t => {
-	try {
-		const value = await btcValue({currencyCode: 'USD', isDecimal: true});
+		const value = await btcValue('USD');
 
 		t.is(typeof value, 'number');
 	} catch {
-		t.fail();
-	}
-});
-
-test('return integer when options is `currencyCode`: `USD`, `isDecimal`: `true` and `quantity`: `2.2`', async t => {
-	try {
-		const value = await btcValue({currencyCode: 'USD', isDecimal: false, quantity: 2.2});
-
-		t.is(typeof value, 'number');
-		t.is(value % 1, 0);
-	} catch {
-		t.fail();
-	}
-});
-
-test('return integer when `isDecimal` is false', async t => {
-	try {
-		const value = await btcValue({isDecimal: false});
-
-		t.is(typeof value, 'number');
-		t.is(value % 1, 0);
-	} catch {
-		t.fail();
-	}
-});
-
-test('return decimal when `isDecimal` is true', async t => {
-	try {
-		const value = await btcValue({isDecimal: true});
-
-		t.is(typeof value, 'number');
-	} catch {
-		t.fail();
-	}
-});
-
-test('return integer when `isDecimal` is not in options', async t => {
-	try {
-		const value = await btcValue({isDecimalsss: true});
-
-		t.is(typeof value, 'number');
-		t.is(value % 1, 0);
-	} catch (error) {
-		t.is(error, '');
 		t.fail();
 	}
 });

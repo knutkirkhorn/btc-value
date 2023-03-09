@@ -32,33 +32,11 @@ test('throws TypeError when `apiKey` is not a string', t => {
 	}
 });
 
-test('throws TypeError when `isDecimal` is not a boolean', async t => {
-	const expectedResult = new TypeError('`isDecimal` should be of type `boolean`');
-
-	try {
-		await btcValue({isDecimal: 'true'});
-		t.fail();
-	} catch (error) {
-		t.deepEqual(error, expectedResult);
-	}
-});
-
-test('throws TypeError when `quantity` is not a number', async t => {
-	const expectedResult = new TypeError('`quantity` should be of type `number`');
-
-	try {
-		await btcValue({quantity: '1337'});
-		t.fail();
-	} catch (error) {
-		t.deepEqual(error, expectedResult);
-	}
-});
-
 test('throws TypeError when `currencyCode` is not a string', async t => {
 	const expectedResult = new TypeError('`currencyCode` should be of type `string`');
 
 	try {
-		await btcValue({currencyCode: 1337});
+		await btcValue(1337);
 		t.fail();
 	} catch (error) {
 		t.deepEqual(error, expectedResult);
