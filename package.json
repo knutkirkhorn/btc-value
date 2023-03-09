@@ -1,6 +1,6 @@
 {
 	"name": "btc-value",
-	"version": "5.0.1",
+	"version": "6.0.0",
 	"description": "Get the current Bitcoin value",
 	"scripts": {
 		"test": "ava --serial && tsd",
